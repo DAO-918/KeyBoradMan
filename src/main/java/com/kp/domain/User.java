@@ -15,24 +15,6 @@ public class User {
     private Integer user_fans;
     private Integer user_concern;
 
-    public User() {
-    }
-
-    public User(Integer user_id, String user_name, String user_email, String user_sex, Integer user_phone, String user_ex, String user_time, String user_show, String user_blog, String user_img, Integer user_fans, Integer user_concern) {
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.user_email = user_email;
-        this.user_sex = user_sex;
-        this.user_phone = user_phone;
-        this.user_ex = user_ex;
-        this.user_time = user_time;
-        this.user_show = user_show;
-        this.user_blog = user_blog;
-        this.user_img = user_img;
-        this.user_fans = user_fans;
-        this.user_concern = user_concern;
-    }
-
     public String getUser_name() {
         return user_name;
     }
