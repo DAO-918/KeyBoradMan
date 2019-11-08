@@ -22,7 +22,7 @@
     <mvc:resources mapping="/js/" location="/resource/js/**"/>
     <mvc:resources mapping="/Admin/" location="/view/Admin/**"/>
     <mvc:resources mapping="/Home/" location="/view/Home/**"/>
-    <mvc:resources mapping="/User/" location="/view/User/**"/>-->
+    <mvc:resources mapping="/User_info/" location="/view/User_info/**"/>-->
 
     <!--开启springMVC注解的支持-->
     <mvc:annotation-driven/>
