@@ -76,7 +76,7 @@
     <!--配置AccountDao接口所在包-->
     <!-- 自动扫描 将Mapper接口生成代理注入到Spring -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.kp"></property>
+        <property name="basePackage" value="com.kp.dao"></property>
     </bean>
 
     <!--配置Spring框架声明式事务管理-->

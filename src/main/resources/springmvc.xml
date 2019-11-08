@@ -16,12 +16,13 @@
     </bean>
 
     <!--过滤静态资源-->
-    <mvc:resources mapping="/css/" location="/resource/css/**"/>
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!--<mvc:resources mapping="/css/" location="/resource/css/**"/>
     <mvc:resources mapping="/img/" location="/resource/img/**"/>
     <mvc:resources mapping="/js/" location="/resource/js/**"/>
     <mvc:resources mapping="/Admin/" location="/view/Admin/**"/>
     <mvc:resources mapping="/Home/" location="/view/Home/**"/>
-    <mvc:resources mapping="/User/" location="/view/User/**"/>
+    <mvc:resources mapping="/User/" location="/view/User/**"/>-->
 
     <!--开启springMVC注解的支持-->
     <mvc:annotation-driven/>
