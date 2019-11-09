@@ -1,4 +1,4 @@
 package com.kp.dao;
 
-public class UserCollectionDao {
+public interface UserCollectionDao {
 }

@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.ArticleDao">
-    <resultMap id="articleMap" type="article">
-        <id property="art_id" column="art_id"></id>
-        <result property="art_user_id" column="art_user_id"></result>
-        <result property="art_title" column="art_title"></result>
-        <result property="art_tag_id" column="art_tag_id"></result>
-        <result property="art_category_id" column="art_category_id"></result>
-        <result property="art_content" column="art_content"></result>
-        <result property="art_create_time" column="art_create_time"></result>
-        <result property="art_com_num" column="art_com_num"></result>
-        <result property="art_hot_num" column="art_hot_num"></result>
-        <result property="art_like_num" column="art_like_num"></result>
-        <!-- 一对一， 配置角色集合的映射 -->
-        <association property="article_tag" column="art_tag_id" javaType="article_tag">
-            <id property="tag_id" column="tag_id"></id>
-            <result property="tag_cid" column="tag_cid"></result>
-            <result property="tag_name" column="tag_name"></result>
-            <result property="tag_content" column="tag_content"></result>
-        </association>
-        <!-- 一对一的关系映射：配置封装user的内容-->
-        <association property="user" column="art_user_id" javaType="user">
-            <id property="user_id" column="user_id"></id>
-            <result property="user_name" column="user_name"></result>
-        </association>
+    <resultMap id="articleMap" type="com.kp.domain.Article">
+        <id property="artId" column="art_id"/>
+        <result property="artUserId" column="art_user_id"/>
+        <result property="artTitle" column="art_title"/>
+        <result property="artTagId" column="art_tag_id"/>
+        <result property="artCategoryId" column="art_category_id"/>
+        <result property="artContent" column="art_content"/>
+        <result property="artCreateTime" column="art_create_time"/>
+        <result property="artComNum" column="art_com_num"/>
+        <result property="artHotNum" column="art_hot_num"/>
+        <result property="artLikeNum" column="art_like_num"/>
     </resultMap>
 
-    <select id="findAllArticle" resultMap="articleMap">
-        select a.*,tag.tag_name,u.user_name from article a
-        left outer join article_tag tag on a.art_tag_id = tag.tag_id
-        left outer join user u on u.user_id=a.art_user_id
+    <select id="findArticleCount" resultMap="articleMap" parameterType="int" resultType="int">
+        select count(*)
+        from article
+        where art_user_id = #{artUserId}
     </select>
+
 
 </mapper>
