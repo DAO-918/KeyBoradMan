@@ -17,7 +17,7 @@ public class Article {
     private Integer art_like_num;
 
     //多对一关系，多篇文章可以对应同个标签
-    private ArticleTag article_tag;
+    private ArticleTag articletag;
 
     //多对一关系，多篇文章对应一个作者
     private User user;
@@ -37,7 +37,7 @@ public class Article {
                 ", art_com_num=" + art_com_num +
                 ", art_hot_num=" + art_hot_num +
                 ", art_like_num=" + art_like_num +
-                ", article_tag=" + article_tag +
+                ", article_tag=" + articletag +
                 ", user=" + user +
                 '}';
     }
@@ -139,11 +139,11 @@ public class Article {
     }
 
     public ArticleTag getArticle_tag() {
-        return article_tag;
+        return articletag;
     }
 
     public void setArticle_tag(ArticleTag article_tag) {
-        this.article_tag = article_tag;
+        this.articletag = article_tag;
     }
 
     public User getUser() {

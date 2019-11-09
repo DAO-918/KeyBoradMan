@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 全局js -->
+    <script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../../resource/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            var totalRecord, currentPage;
+            //显示第一页
+            to_page(1);
+
+            /**
+             * 1.实现文章展示
+             * @param pn
+             */
+            //显示全部文章
+
+            function to_page(pageNo) {
+
+                $.ajax({
+                    url: "/article",
+                    data: "pageNo=" + pageNo,
+                    type: "GET",
+                    success: function (result) {
+                        //1.解析并显示文章
+                        //build_article_table(result);
+                        //2.解析并显示分页信息
+                        //build_page_info(result);
+                        //3.解析并显示分页条数据
+                        //build_page_nav(result);
+                        $("#test").append(JSON.stringify(result));
+                        $("#xxxx").append(JSON.stringify(result));
+                    }
+                })
+            }
+        })
+
+
+    </script>
+</head>
+<body>
+<div id="test">
+<textarea id="xxxx">
+
+</textarea>
+</div>
+</body>
+</html>

@@ -15,7 +15,7 @@
         <result property="art_hot_num" column="art_hot_num"></result>
         <result property="art_like_num" column="art_like_num"></result>
         <!-- 一对一， 配置角色集合的映射 -->
-        <association property="article_tag" column="art_tag_id" javaType="articletag">
+        <association property="articletag" column="art_tag_id" javaType="articletag">
             <id property="tag_id" column="tag_id"></id>
             <result property="tag_cid" column="tag_cid"></result>
             <result property="tag_name" column="tag_name"></result>

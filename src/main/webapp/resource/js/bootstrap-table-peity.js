@@ -8,8 +8,10 @@ function InitMainArticleTable () {
 
     $("#back_article_table").bootstrapTable({
 
-        url: '/article',                  //请求后台的URL（*）
-        method:'GET',                   //请求方式（*）
+        data: "pageNo=" + 1,
+        type: "GET",
+        url: '/article',                //请求后台的URL（*）
+        //method:'GET',                   //请求方式（*）
         //toolbar: '#toolbar',          //工具按钮用哪个容器
         striped: true,                  //是否显示行间隔色
         cache: false,                   //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
