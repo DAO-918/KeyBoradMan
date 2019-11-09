@@ -1,12 +1,14 @@
 package com.kp.domain;
 
-public class User_info {
+import java.math.BigInteger;
+
+public class UserInfo {
 
     private Integer user_id;
     private String user_name;
     private String user_email;
     private String user_sex;
-    private Integer user_phone;
+    private BigInteger user_phone;
     private String user_ex;
     private String user_time;
     private String user_show;
@@ -47,11 +49,11 @@ public class User_info {
         this.user_sex = user_sex;
     }
 
-    public Integer getUser_phone() {
+    public BigInteger getUser_phone() {
         return user_phone;
     }
 
-    public void setUser_phone(Integer user_phone) {
+    public void setUser_phone(BigInteger user_phone) {
         this.user_phone = user_phone;
     }
 
@@ -113,7 +115,7 @@ public class User_info {
 
     @Override
     public String toString() {
-        return "User_info{" +
+        return "UserInfo{" +
                 "user_id=" + user_id +
                 ", user_name='" + user_name + '\'' +
                 ", user_email='" + user_email + '\'' +

@@ -17,10 +17,10 @@ public class Article {
     private Integer art_like_num;
 
     //多对一关系，多篇文章可以对应同个标签
-    private Article_tag article_tag;
+    private ArticleTag article_tag;
 
     //多对一关系，多篇文章对应一个作者
-    private User_info user;
+    private User user;
 
     @Override
     public String toString() {
@@ -138,19 +138,19 @@ public class Article {
         this.art_like_num = art_like_num;
     }
 
-    public Article_tag getArticle_tag() {
+    public ArticleTag getArticle_tag() {
         return article_tag;
     }
 
-    public void setArticle_tag(Article_tag article_tag) {
+    public void setArticle_tag(ArticleTag article_tag) {
         this.article_tag = article_tag;
     }
 
-    public User_info getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User_info user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

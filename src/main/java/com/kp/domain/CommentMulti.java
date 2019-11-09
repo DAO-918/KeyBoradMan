@@ -2,7 +2,7 @@ package com.kp.domain;
 
 import java.util.Date;
 
-public class Comment_multi {
+public class CommentMulti {
     private Integer com_multi_id;
     private Integer com_id;
     private String com_multi_content;
@@ -12,7 +12,7 @@ public class Comment_multi {
 
     @Override
     public String toString() {
-        return "Comment_multi{" +
+        return "CommentMulti{" +
                 "com_multi_id=" + com_multi_id +
                 ", com_id=" + com_id +
                 ", com_multi_content='" + com_multi_content + '\'' +

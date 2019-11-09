@@ -2,7 +2,7 @@ package com.kp.domain;
 
 import java.util.Date;
 
-public class User_attention {
+public class UserAttention {
     private Integer att_id;
     private Integer att_author_id;
     private Integer att_user_id;
@@ -10,7 +10,7 @@ public class User_attention {
 
     @Override
     public String toString() {
-        return "User_attention{" +
+        return "UserAttention{" +
                 "att_id=" + att_id +
                 ", att_author_id=" + att_author_id +
                 ", att_user_id=" + att_user_id +

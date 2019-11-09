@@ -2,7 +2,7 @@ package com.kp.domain;
 
 import java.util.Date;
 
-public class User_collection {
+public class UserCollection {
     private Integer col_id;
     private Integer col_art_id;
     private Integer col_user_id;
@@ -10,7 +10,7 @@ public class User_collection {
 
     @Override
     public String toString() {
-        return "User_collection{" +
+        return "UserCollection{" +
                 "col_id=" + col_id +
                 ", col_art_id=" + col_art_id +
                 ", col_user_id=" + col_user_id +

@@ -1,6 +1,6 @@
 package com.kp.domain;
 
-public class Article_tag {
+public class ArticleTag {
     private Integer tag_id;
     private Integer tag_cid;//标签类别
     private String tag_name;
@@ -8,7 +8,7 @@ public class Article_tag {
 
     @Override
     public String toString() {
-        return "Article_tag{" +
+        return "ArticleTag{" +
                 "tag_id=" + tag_id +
                 ", tag_cid=" + tag_cid +
                 ", tag_name='" + tag_name + '\'' +
