@@ -8,7 +8,7 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin{" +
+        return "admin{" +
                 "admin_id=" + admin_id +
                 ", admin_login_name='" + admin_login_name + '\'' +
                 ", admin_login_pwd='" + admin_login_pwd + '\'' +

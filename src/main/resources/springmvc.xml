@@ -20,7 +20,7 @@
     <!--<mvc:resources mapping="/css/" location="/resource/css/**"/>
     <mvc:resources mapping="/img/" location="/resource/img/**"/>
     <mvc:resources mapping="/js/" location="/resource/js/**"/>
-    <mvc:resources mapping="/Admin/" location="/view/Admin/**"/>
+    <mvc:resources mapping="/admin/" location="/view/admin/**"/>
     <mvc:resources mapping="/Home/" location="/view/Home/**"/>
     <mvc:resources mapping="/UserInfo/" location="/view/UserInfo/**"/>-->
 

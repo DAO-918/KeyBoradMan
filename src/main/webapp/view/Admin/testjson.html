@@ -10,7 +10,7 @@
         $(function () {
             var totalRecord, currentPage;
             //显示第一页
-            to_page(1);
+            to_page(1,10);
 
             /**
              * 1.实现文章展示
@@ -18,11 +18,11 @@
              */
             //显示全部文章
 
-            function to_page(pageNo) {
+            function to_page(pageNo,pageSize) {
 
                 $.ajax({
-                    url: "/article",
-                    data: "pageNo=" + pageNo,
+                    url: "/bcarticle",
+                    data: "pageNumber=1&pageSize=10",
                     type: "GET",
                     success: function (result) {
                         //1.解析并显示文章
@@ -33,6 +33,7 @@
                         //build_page_nav(result);
                         $("#test").append(JSON.stringify(result));
                         $("#xxxx").append(JSON.stringify(result));
+                        $("#xxxx").append(result);
                     }
                 })
             }
