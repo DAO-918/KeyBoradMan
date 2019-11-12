@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.ArticleTagDao">
 
+    <insert id="insertTag" parameterType="articletag">
+        insert into article_tag (tag_cid,tag_name,tag_content)
+        values (#{tag_cid},#{tag_name},#{tag_content})
+    </insert>
 
+    <delete id="deleteTag" parameterType="Integer">
+        delete from article_tag where tag_id=#{id}
+    </delete>
 
+    <update id="updateTag" parameterType="articletag">
+        update article_tag
+        set tag_cid=#{tag_cid},tag_name=#{tag_name},tag_content=#{tag_content}
+        where tag_id=#{tag_id}
+    </update>
+
+    <select id="findAllTag" resultType="backtag">
+        select article_tag.*,category.* FROM article_tag
+        Left JOIN category on article_tag.tag_cid=category_id
+    </select>
 </mapper>

@@ -34,7 +34,7 @@
         left outer join user u on u.user_id=a.art_user_id
     </select>
 
-    <select id="bcfindAllArticle" resultType="backarticle">
+    <select id="findBackAllArticle" resultType="backarticle">
         select a.*,tag.tag_name,u.user_name,c.category_name from article a
         left outer join article_tag tag on a.art_tag_id = tag.tag_id
         left outer join user u on u.user_id=a.art_user_id

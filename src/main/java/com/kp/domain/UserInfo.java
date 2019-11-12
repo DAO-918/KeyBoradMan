@@ -1,14 +1,12 @@
 package com.kp.domain;
 
-import java.math.BigInteger;
-
 public class UserInfo {
 
     private Integer user_id;
     private String user_name;
     private String user_email;
     private String user_sex;
-    private BigInteger user_phone;
+    private String user_phone;
     private String user_ex;
     private String user_time;
     private String user_show;
@@ -49,11 +47,11 @@ public class UserInfo {
         this.user_sex = user_sex;
     }
 
-    public BigInteger getUser_phone() {
+    public String getUser_phone() {
         return user_phone;
     }
 
-    public void setUser_phone(BigInteger user_phone) {
+    public void setUser_phone(String user_phone) {
         this.user_phone = user_phone;
     }
 

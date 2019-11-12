@@ -1,13 +1,11 @@
 package com.kp.domain;
 
-import java.math.BigInteger;
-
 public class User {
 
     private Integer user_id;
     private String user_name;
     private String user_password;
-    private BigInteger user_phone;
+    private String user_phone;
     private Integer user_status;
 
     @Override
@@ -45,11 +43,11 @@ public class User {
         this.user_password = user_password;
     }
 
-    public BigInteger getUser_phone() {
+    public String getUser_phone() {
         return user_phone;
     }
 
-    public void setUser_phone(BigInteger user_phone) {
+    public void setUser_phone(String user_phone) {
         this.user_phone = user_phone;
     }
 

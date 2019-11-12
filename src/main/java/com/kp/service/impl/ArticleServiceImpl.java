@@ -21,7 +21,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<BackArticle> bcfindAllArticle() {
-        return articleDao.bcfindAllArticle();
+    public List<BackArticle> findBackAllArticle() {
+        return articleDao.findBackAllArticle();
     }
 }

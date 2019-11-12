@@ -10,5 +10,5 @@ public interface ArticleService {
     List<Article> findAllArticle();
 
     //后台获取文章、标签、类型、作者
-    List<BackArticle> bcfindAllArticle();
+    List<BackArticle> findBackAllArticle();
 }

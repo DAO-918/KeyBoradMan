@@ -21,4 +21,15 @@ public class Common {
         return false;
     }
 
+    public static boolean isCURD(Integer i){
+        if (i==null&&i<=0){
+            return false;
+        }else if (i==1){
+            return true;
+        }else if (i>1){
+            return false;
+        }
+        return false;
+    }
+
 }

@@ -49,9 +49,11 @@ public class ArticleController {
     //后台获取文章、标签、类型、作者
     @GetMapping(value = "/bcarticle", produces = "application/json;charset=UTF-8")
     public String getBackListArticle(int pageNumber, int pageSize) {
+    //public String getBackListArticle(int pageNumber, int pageSize,int limit,int offset) {
     //public Msg getBackListArticle(int pageNumber, int pageSize) {
+        //System.out.println(limit+":"+offset);
         JSONObject result = new JSONObject();
-        List<BackArticle> articleList = articleService.bcfindAllArticle();
+        List<BackArticle> articleList = articleService.findBackAllArticle();
         result.put("rows", articleList);
         result.put("total", articleList.size());
         return result.toJSONString();
