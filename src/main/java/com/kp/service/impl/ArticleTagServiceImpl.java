@@ -22,8 +22,8 @@ public class ArticleTagServiceImpl implements ArticleTagService {
     }
 
     @Override
-    public boolean deleteTag(int id) {
-        int i = articleTagDao.deleteTag(id);
+    public boolean deleteTag(List<String> list) {
+        int i = articleTagDao.deleteTag(list);
         return Common.isCURD(i);
     }
 

@@ -7,8 +7,11 @@
         values (#{tag_cid},#{tag_name},#{tag_content})
     </insert>
 
-    <delete id="deleteTag" parameterType="Integer">
-        delete from article_tag where tag_id=#{id}
+    <delete id="deleteTag" parameterType="java.util.List">
+        delete from article_tag where tag_id in
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
     <update id="updateTag" parameterType="articletag">

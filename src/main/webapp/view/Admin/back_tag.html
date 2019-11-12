@@ -36,6 +36,7 @@
     <script>
         $(function () {
             InitMainTagTable();
+            addCategory();
         })
     </script>
 </head>
@@ -87,25 +88,27 @@
             <div class="modal-body">
                 <form id="addTagForm" action="/insertTag" method="post" class="form-horizontal">
                     <div class="form-group">
-                        <label for="input1" class="col-sm-2 control-label">标签名称</label>
+                        <label for="add_input1" class="col-sm-2 control-label">标签名称</label>
                         <div class="col-sm-7">
-                            <input type="text" name="tag_name" class="form-control" id="input1" placeholder="请填写标签名称"/>
+                            <input type="text" name="tag_name" class="form-control" id="add_input1" placeholder="请填写标签名称"/>
                         </div>
-                        <label id="error1" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="error1" for="add_input1" class="col-sm-3 control-label"></label>
                     </div>
                     <div class="form-group">
-                        <label for="input2" class="col-sm-2 control-label">简述内容</label>
+                        <label for="add_input2" class="col-sm-2 control-label">简述内容</label>
                         <div class="col-sm-7">
-                            <textarea type="text" name="tag_content" rows="10" class="form-control" id="input2" placeholder="请填写标签描述"></textarea>
+                            <textarea type="text" name="tag_content" rows="10" class="form-control" id="add_input2" placeholder="请填写标签描述"></textarea>
                         </div>
-                        <label id="error2" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="error2" for="add_input2" class="col-sm-3 control-label"></label>
                     </div>
                     <div class="form-group">
-                        <label for="input3" class="col-sm-2 control-label">类型</label>
+                        <label for="add_input3" class="col-sm-2 control-label">类型</label>
                         <div class="col-sm-7">
-                            <input type="text" name="tag_cid" class="form-control" id="input3" placeholder="标签名称"/>
+                            <select type="text" name="tag_cid" class="form-control" id="add_input3" placeholder="标签名称">
+
+                            </select>
                         </div>
-                        <label id="error3" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="error3" for="add_input3" class="col-sm-3 control-label"></label>
                     </div>
                 </form>
             </div>
@@ -126,25 +129,32 @@
             <div class="modal-body">
                 <form id="editTagForm" action="/insertTag" method="post" class="form-horizontal">
                     <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="hidden" name="tag_id" class="form-control" id="edit_input"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="edit_input1" class="col-sm-2 control-label">标签名称</label>
                         <div class="col-sm-7">
                             <input type="text" name="tag_name" class="form-control" id="edit_input1" placeholder="请填写标签名称"/>
                         </div>
-                        <label id="edit_error1" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="edit_error1" for="edit_input1" class="col-sm-3 control-label"></label>
                     </div>
                     <div class="form-group">
                         <label for="edit_input2" class="col-sm-2 control-label">简述内容</label>
                         <div class="col-sm-7">
                             <textarea type="text" name="tag_content" rows="10" class="form-control" id="edit_input2" placeholder="请填写标签描述"></textarea>
                         </div>
-                        <label id="edit_error2" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="edit_error2" for="edit_input2" class="col-sm-3 control-label"></label>
                     </div>
                     <div class="form-group">
                         <label for="edit_input3" class="col-sm-2 control-label">类型</label>
                         <div class="col-sm-7">
-                            <input type="text" name="tag_cid" class="form-control" id="edit_input3" placeholder="标签名称"/>
+                            <select type="text" name="tag_cid" class="form-control" id="edit_input3" placeholder="标签名称">
+
+                            </select>
                         </div>
-                        <label id="edit_error3" for="input1" class="col-sm-3 control-label"></label>
+                        <label id="edit_error3" for="edit_input3" class="col-sm-3 control-label"></label>
                     </div>
                 </form>
             </div>
@@ -170,7 +180,9 @@
         </div>
     </div>
 </div>
+<div id="testJson">
 
+</div>
 </body>
 
 </html>
