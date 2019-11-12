@@ -38,14 +38,6 @@ public class ArticleTagController {
         return Msg.sucess().add("msg","更新标签操作成功").add("flag",flag);
     }
 
-    /*@RequestMapping(value="/tag", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public String getBackListTag(int pageNumber, int pageSize){
-        JSONObject result = new JSONObject();
-        List<BackTag> tagList = articleTagService.findAllTag();
-        result.put("rows", tagList);
-        result.put("total", tagList.size());
-        return result.toJSONString();
-    }*/
     @RequestMapping(value="/tag", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public String getBackListTag(int pageNumber, int pageSize){
         PageHelper.startPage(pageNumber,pageSize);
