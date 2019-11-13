@@ -11,14 +11,12 @@
 
     <!--配置的视图解析器对象-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="prefix" value="/html/"/>
+        <property name="suffix" value=".html"/>
     </bean>
 
     <!--过滤静态资源-->
-    <mvc:resources mapping="/css/" location="/resource/css/**"/>
-    <mvc:resources mapping="/img/" location="/resource/img/**"/>
-    <mvc:resources mapping="/js/" location="/resource/js/**"/>
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
 
     <!--开启springMVC注解的支持-->
     <mvc:annotation-driven/>

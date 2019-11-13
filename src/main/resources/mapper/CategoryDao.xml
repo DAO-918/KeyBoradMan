@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kp.dao.CategoryDao">
+    <select id="searchCategory" resultType="articleTag" parameterType="category">
+        select article_tag.tag_name from category INNER JOIN article_tag ON category.category_id = article_tag.tag_cid
+        where category_name = #{category_name}
+    </select>
+    <select id="search" resultType="category">
+        select category_name from category
+    </select>
+</mapper>
