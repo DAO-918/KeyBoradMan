@@ -13,5 +13,5 @@ public interface ArticleTagDao {
     //更新标签
     public int updateTag(ArticleTag articleTag);
     //后台获取所有标签及类型、类型说明、类型id
-    public List<BackTag> findAllTag();
+    public List<BackTag> findBackTag();
 }

@@ -56,6 +56,9 @@ function InitMainArticleTable () {
         height: 500,                    //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
         uniqueId: "art_id",             //每一行的唯一标识，一般为主键列
 
+        showExport: true,               //是否显示导出
+        exportDataType: "basic",        //basic', 'all', 'selected'
+
         //queryParamsType:"",            //queryParamsType的默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
         //设置为 ''在这种情况下传给服务器的参数为：pageSize,pageNumber */
         //get请求的参数全部保存在queryParams参数  //(bootstrap 封装好的)

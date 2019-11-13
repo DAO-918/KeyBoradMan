@@ -20,7 +20,7 @@
         where tag_id=#{tag_id}
     </update>
 
-    <select id="findAllTag" resultType="backtag">
+    <select id="findBackTag" resultType="backtag">
         select article_tag.*,category.* FROM article_tag
         Left JOIN category on article_tag.tag_cid=category_id
     </select>

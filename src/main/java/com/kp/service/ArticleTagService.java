@@ -13,5 +13,5 @@ public interface ArticleTagService {
     //更新标签
     public boolean updateTag(ArticleTag articleTag);
     //后台获取所有标签及类型、类型说明、类型id
-    public List<BackTag> findAllTag();
+    public List<BackTag> findBackTag();
 }

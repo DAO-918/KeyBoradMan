@@ -18,7 +18,26 @@
     <link href="../../resource/css/animate.css" rel="stylesheet">
     <link href="../../resource/css/style.css?v=4.1.0" rel="stylesheet">
 
+    <!-- 全局js -->
+    <script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../../resource/js/bootstrap.min.js"></script>
 
+    <!-- 自定义js -->
+    <script src="../../resource/js/content.js?v=1.0.0"></script>
+
+    <!-- Bootstrap table -->
+    <script src="../../resource/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../resource/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="../../resource/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- Peity -->
+    <script src="../../resource/js/bootstrap-table-category.js"></script>
+
+    <script>
+        $(function () {
+            InitMainCategoryTable();
+        })
+    </script>
 </head>
 
 <body class="gray-bg">
@@ -29,7 +48,7 @@
             <div class="col-sm-12">
                 <!-- Example Events -->
                 <div class="example-wrap">
-                    <h4 class="example-title">文章列表</h4>
+                    <h4 class="example-title">类型列表</h4>
                     <div class="example">
                         <!--<div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
                             <button type="button" class="btn btn-outline btn-default">
@@ -42,12 +61,12 @@
                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                             </button>
                         </div>-->
-                        <!--<div id="toolbar">
-                            <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>
-                            <input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>
-                            <input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" data-target="#deleteUserModal" class="btn btn-primary" onclick="deleteUser()"></input>
-                        </div>-->
-                        <table id="back_article_table">
+                        <div id="toolbar">
+                            <input type="button" value="新增类型" id="addBtn" data-toggle="modal" class="btn btn-primary" onclick="openAddModal()"></input>
+                            <input type="button" value="修改类型" id="editBtn" data-toggle="modal" class="btn btn-primary" onclick="openEditModal()"></input>
+                            <input type="button" value="删除类型" id="deleteBtn" data-toggle="modal" class="btn btn-primary" onclick="deleteCategorys()"></input>
+                        </div>
+                        <table id="back_category_table">
                             <!--data-toggle="table" data-height="400" ata-query-params="queryParams" data-mobile-responsive="true" data-pagination="true" data-icon-size="outline" data-search="true"-->
                         </table>
                     </div>
@@ -58,32 +77,93 @@
     </div>
 </div>
 <!-- End Panel Other -->
+<!-- 新增的模态框 -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新增类型</h3>
+            </div>
+            <div class="modal-body">
+                <form id="addCategoryForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="add_input1" class="col-sm-2 control-label">类型名称</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="category_name" class="form-control" id="add_input1" placeholder="请填写类型名称"/>
+                        </div>
+                        <label id="error1" for="add_input1" class="col-sm-3 control-label"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_input2" class="col-sm-2 control-label">简述内容</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" name="category_content" rows="10" class="form-control" id="add_input2" placeholder="请填写类型描述"></textarea>
+                        </div>
+                        <label id="error2" for="add_input2" class="col-sm-3 control-label"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="conf_add" class="btn btn-default" onclick="addCategory()">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- 编辑的模态框 -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑类型</h3>
+            </div>
+            <div class="modal-body">
+                <form id="editCategoryForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <input type="hidden" name="category_id" class="form-control" id="edit_input"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_input1" class="col-sm-2 control-label">类型名称</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="category_name" class="form-control" id="edit_input1" placeholder="请填写类型名称"/>
+                        </div>
+                        <label id="edit_error1" for="edit_input1" class="col-sm-3 control-label"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_input2" class="col-sm-2 control-label">类型内容</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" name="category_content" rows="10" class="form-control" id="edit_input2" placeholder="请填写类型描述"></textarea>
+                        </div>
+                        <label id="edit_error2" for="edit_input2" class="col-sm-3 control-label"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="conf_edit" class="btn btn-default" onclick="editCategory()">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Tip" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>提示</h3>
+            </div>
+            <div class="modal-body" align="center">
+                <h4 id="tipContent"></h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="testJson">
 
-<!-- 全局js -->
-<script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
-<script src="../../resource/js/bootstrap.min.js"></script>
-
-<!-- 自定义js -->
-<script src="../../resource/js/content.js?v=1.0.0"></script>
-
-
-<!-- Bootstrap table -->
-<script src="../../resource/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="../../resource/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
-<script src="../../resource/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-
-<!-- Peity -->
-<script src="../../resource/js/bootstrap-table-peity.js"></script>
-
-<script>
-
-    $(function () {
-        InitMainCategoryTable();
-    })
-
-</script>
-
+</div>
 </body>
 
 </html>

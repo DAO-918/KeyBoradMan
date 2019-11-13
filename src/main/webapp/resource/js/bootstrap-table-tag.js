@@ -1,6 +1,6 @@
 function InitMainTagTable() {
     $("#back_tag_table").bootstrapTable({
-        url: "/tag/",                   //请求后台的URL（*）
+        url: "/tag/bc/",                   //请求后台的URL（*）
         dataType: "json",
         //此间是与client不一样的地方=======================开始
         contentType: "application/x-www-form-urlencoded",
@@ -44,6 +44,9 @@ function InitMainTagTable() {
 
         height: 500,                    //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
         uniqueId: "tag_name",           //每一行的唯一标识，一般为主键列
+
+        showExport: true,               //是否显示导出
+        exportDataType: "basic",        //basic', 'all', 'selected'
 
         //queryParamsType:"",           //queryParamsType的默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
         //设置为 ''在这种情况下传给服务器的参数为：pageSize,pageNumber */
@@ -136,6 +139,7 @@ function addTag(){
         error:function(){
             document.getElementById("tipContent").innerText="新增失败";
             $("#Tip").modal('show');
+            $("#addTagModal").modal('hide');
         }
     });
 }
@@ -199,6 +203,7 @@ function editTag(){
         error:function(){
             document.getElementById("tipContent").innerText="修改失败";
             $("#Tip").modal('show');
+            $("#addTagModal").modal('hide');
         }
     });
 }

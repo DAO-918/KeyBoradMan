@@ -1,11 +1,11 @@
-function InitMainTagTable() {
-    $("#back_tag_table").bootstrapTable({
-        url: "/tag/",                   //请求后台的URL（*）
+//以tag标签页面为主
+function InitMainCategoryTable() {
+    $("#back_category_table").bootstrapTable({
+        url: "/category/bc/",           //请求后台的URL（*）
         dataType: "json",
         //此间是与client不一样的地方=======================开始
         contentType: "application/x-www-form-urlencoded",
         sidePagination: "server",       //分页方式：client客户端分页，server服务端分页（*）
-        //如果使用client是否要返回一个json文件，为什么使用client无法显示数据
         method: "GET",                  //请求方式（*）
         toolbar: '#toolbar',            //工具按钮用哪个容器
         search: false,                  //是否显示表格搜索
@@ -43,18 +43,13 @@ function InitMainTagTable() {
         clickToSelect: true,            //是否启用点击选中行
 
         height: 500,                    //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-        uniqueId: "tag_name",           //每一行的唯一标识，一般为主键列
+        uniqueId: "category_name",      //每一行的唯一标识，一般为主键列
 
-        //queryParamsType:"",           //queryParamsType的默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
-        //设置为 ''在这种情况下传给服务器的参数为：pageSize,pageNumber */
-        //get请求的参数全部保存在queryParams参数  //(bootstrap 封装好的)
+        showExport: true,               //是否显示导出
+        exportDataType: "basic",        //basic', 'all', 'selected'
+
         queryParams: function (params) {//得到查询的参数
-            //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp = {
-                /*rows: params.limit,                       //页面大小
-                page: (params.offset / params.limit) + 1,   //页码
-                sort: params.sort,                          //排序列名
-                sortOrder: "desc"*/                         //排位命令（desc，asc）
                 limit: this.limit,     //页面大小
                 offset: this.offset,   //页码
                 pageNumber: this.pageNumber,
@@ -64,40 +59,17 @@ function InitMainTagTable() {
         },
         columns: [
             {checkbox: 'false', title: ''},
-            {field: 'tag_name', title: '标签', sortable: true},
-            {field: 'tag_content', title: '简述', sortable: true},
-            {field: 'category_name', title: '类别', sortable: true},
+            {field: 'category_name', title: '名称', sortable: true},
+            {field: 'category_content', title: '简述', sortable: true},
             //{fiele: 'article_count', title: '文章数量'}, //暂时不添加，sql查询语句未完善
-            {field: 'tag_id', tittle: '操作', width: 120, align: 'center', formatter: actionFormatter}
+            {field: 'category_id', tittle: '操作', width: 120, align: 'center', formatter: actionFormatter}
         ],
-        /*responseHandler:function (res) {
-            //在ajax获取到数据，渲染表格之前，修改数据源，后端直接返回pageInfo数据时使用
-            var nres = [];
-            nres.push({total:res.pageInfo.total,rows:res.pageInfo.list});
-            return nres[0];
-        }*/
         onDblClickRow: function (row, $element) {
             //alert(row.tag_id);
             //alert(row.tag_cid);           //可以取出未在行中显示的值
 
             //可添加点击行弹出编辑框的事件
         },
-    })
-}
-
-function addCategory() {
-    $.ajax({
-        url:"/category/",
-        dataType: "json",
-        type:"get",
-        //method: "GET",
-        data:{_method:"GET"},
-        success:function (data) {
-            for (var i=0;i<data.length;i++){
-                $("#add_input3").append("<option value='"+data[i].category_id+"'>"+data[i].category_name+"</option>");
-                $("#edit_input3").append("<option value='"+data[i].category_id+"'>"+data[i].category_name+"</option>");
-            }
-        }
     })
 }
 
@@ -110,16 +82,16 @@ function actionFormatter(value, row, index) {
 }
 
 function openAddModal() {
-    $("#addTagModal").modal('show');
+    $("#addCategoryModal").modal('show');
 }
 
 //新增标签
-function addTag(){
-    var param = $("#addTagForm").serialize();
+function addCategory(){
+    var param = $("#addCategoryForm").serialize();
     //debugger;//用于前端调试
-    $("#conf_add").attr("onclick","addTag()");
+    $("#conf_add").attr("onclick","addCategory()");
     $.ajax({
-        url:"/tag/",
+        url:"/category/",
         method:"post",
         data:param+"&_method=PUT",
         dataType:"json",
@@ -129,8 +101,8 @@ function addTag(){
 
             document.getElementById("tipContent").innerText=data.extend.msgInfo;
             $("#Tip").modal('show');
-            $("#addTagModal").modal('hide');
-            $("#back_tag_table").bootstrapTable('refresh');
+            $("#addCategoryModal").modal('hide');
+            $("#back_category_table").bootstrapTable('refresh');
             resetAddModal();
         },
         error:function(){
@@ -142,48 +114,36 @@ function addTag(){
 
 //重置新增表单，清空表单中已写信息
 function resetAddModal(){
-    document.getElementById("addTagForm").reset();
-    //$("#addTipForm")[0].reset();//JQuery中没有reset方法，$('#myform')[0].reset()也就是通过调用 DOM 中的reset方法来重置表单。
-
-    //报错的最主要的原因是id的值写错，但是如果是null值报出以下错误，可以用下面的解决方案
-    //Uncaught TypeError: Cannot read property 'reset' of undefined
-    //var form = $("#("#addTagForm")[0]== undefined ? '' : $("#("#addTipForm")[0].reset();
-
-    $("#addTagModal").modal('hide');
-
-    // <textarea> 不能是自闭环
+    document.getElementById("addCategoryForm").reset();
+    $("#addCategoryModal").modal('hide');
 }
 
 function beforOpenEditModal() {
-    //使模态框再复选框勾选后弹出，勾选和弹出有时间差，一般是弹出(触发方法在前)
-    //但是设置了延时触发也有另一个问题：当该行已点击时，点击图标，因为延时，改行在方法前为未选，导致操作偏离实际意图
-    //在点击时清除其他的选择，并保证点击所在的行被选中？？？
     setTimeout(function () {
         openEditModal();
     },1000);
 }
 
 function openEditModal() {
-    var rows = $("#back_tag_table").bootstrapTable('getSelections');
+    var rows = $("#back_category_table").bootstrapTable('getSelections');
     if(rows.length!=1){
         document.getElementById("tipContent").innerText="请选择一行数据";
         $("#Tip").modal('show');
     }
     else{
         var row = rows[0];
-        $('#edit_input').val(row.tag_id);
-        $('#edit_input1').val(row.tag_name);
-        $('#edit_input2').val(row.tag_content);
-        $('#edit_input3').val(row.tag_cid);
-        $("#editTagModal").modal("show");
+        $('#edit_input').val(row.category_id);
+        $('#edit_input1').val(row.category_name);
+        $('#edit_input2').val(row.category_content);
+        $("#editCategoryModal").modal("show");
     }
 }
 
-function editTag(){
-    var param = $("#editTagForm").serialize();
+function editCategory(){
+    var param = $("#editCategoryForm").serialize();
     //debugger;//用于前端调试
     $.ajax({
-        url:"/tag/"+1,
+        url:"/category/"+1,
         method:"post",
         data:param+"&_method=POST",
         dataType:"json",
@@ -193,8 +153,8 @@ function editTag(){
 
             document.getElementById("tipContent").innerText=data.extend.msgInfo;
             $("#Tip").modal('show');
-            $("#editTagModal").modal("hide");
-            $("#back_tag_table").bootstrapTable('refresh');
+            $("#editCategoryModal").modal("hide");
+            $("#back_category_table").bootstrapTable('refresh');
         },
         error:function(){
             document.getElementById("tipContent").innerText="修改失败";
@@ -204,11 +164,11 @@ function editTag(){
 }
 
 //实现删除数据的方法
-function deleteTags() {
+function deleteCategorys() {
     var ids = "";//得到用户选择的数据的ID
-    var rows = $("#back_tag_table").bootstrapTable('getSelections');
+    var rows = $("#back_category_table").bootstrapTable('getSelections');
     for (var i = 0; i < rows.length; i++) {
-        ids += rows[i].tag_id + ',';
+        ids += rows[i].category_id + ',';
     }
     ids = ids.substring(0, ids.length - 1);
 
@@ -220,14 +180,14 @@ function deleteTags() {
 
 function deleteByIds(ids) {
     $.ajax({
-        url:"/tag/",
+        url:"/category/",
         method:"post",
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
             document.getElementById("tipContent").innerText=data.extend.msgInfo;
             $("#Tip").modal('show');
-            $("#back_tag_table").bootstrapTable('refresh');
+            $("#back_category_table").bootstrapTable('refresh');
         }
     })
 }

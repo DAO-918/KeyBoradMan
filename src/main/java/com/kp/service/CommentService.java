@@ -1,12 +1,12 @@
-package com.kp.dao;
+package com.kp.service;
 
 import com.kp.domain.BackComment;
 
 import java.util.List;
 
-public interface CommentDao {
+public interface CommentService {
     //删除一级评论
-    public int deleteComment(List<String> list);
+    public boolean deleteComment(List<String> list);
     //后台查找所有一级评论
     public List<BackComment> findBackComment();
 }

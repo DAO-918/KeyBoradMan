@@ -46,10 +46,10 @@ public class ArticleTagController {
         //{"code":100,"message":"处理成功","time":null,"extend":{"flag":true,"msgInfo":"更新标签操作成功"}}
     }
 
-    @RequestMapping(value="/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value="/bc/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public String getBackListTag(int pageNumber, int pageSize){
         PageHelper.startPage(pageNumber,pageSize);
-        List<BackTag> tagList = articleTagService.findAllTag();
+        List<BackTag> tagList = articleTagService.findBackTag();
         PageInfo pageInfo = new PageInfo(tagList);
         JSONObject result = new JSONObject();
         result.put("total", pageInfo.getTotal());

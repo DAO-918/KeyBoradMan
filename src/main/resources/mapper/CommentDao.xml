@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.CommentDao">
 
+    <delete id="deleteComment" parameterType="java.util.List">
+        delete from comment where com_id in
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
+    <select id="findBackComment" parameterType="comment" resultType="backcomment">
+        select comment.*,article.art_title,article.art_id,user_info.user_name,user_info.user_id
+        from comment,article,user_info WHERE article.art_id=comment.com_art_id
+        and user_info.user_id=`comment`.com_user_id
+    </select>
 
 </mapper>

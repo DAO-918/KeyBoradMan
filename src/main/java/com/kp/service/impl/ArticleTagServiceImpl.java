@@ -18,24 +18,24 @@ public class ArticleTagServiceImpl implements ArticleTagService {
     @Override
     public boolean insertTag(ArticleTag articleTag) {
         int i = articleTagDao.insertTag(articleTag);
-        return Common.isCURD(i);
+        return Common.isCUR(i);
     }
 
     @Override
     public boolean deleteTag(List<String> list) {
         int i = articleTagDao.deleteTag(list);
-        return Common.isCURD(i);
+        return Common.isDelete(i);
     }
 
     @Override
     public boolean updateTag(ArticleTag articleTag) {
         int i = articleTagDao.updateTag(articleTag);
-        return Common.isCURD(i);
+        return Common.isCUR(i);
     }
 
     @Override
-    public List<BackTag> findAllTag() {
-        List<BackTag> tagList = articleTagDao.findAllTag();
+    public List<BackTag> findBackTag() {
+        List<BackTag> tagList = articleTagDao.findBackTag();
         return tagList;
     }
 
