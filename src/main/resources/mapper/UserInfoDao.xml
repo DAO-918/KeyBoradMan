@@ -1,7 +1,70 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.kp.dao.UserInfoDao">
 
+    <!--    参数映射-->
+    <resultMap id="userInfos" type="UserInfo">
+        <id property="user_id" column="user_id"></id>
+        <result property="user_name" column="user_name"></result>
+        <result property="user_email" column="user_email"></result>
+        <result property="user_sex" column="user_sex"></result>
+        <result property="user_phone" column="user_phone"></result>
+        <result property="user_ex" column="user_ex"></result>
+        <result property="user_time" column="user_time"></result>
+        <result property="user_show" column="user_show"></result>
+        <result property="user_blog" column="user_blog"></result>
+        <result property="user_img" column="user_img"></result>
+        <result property="user_fans" column="user_fans"></result>
+        <result property="user_concern" column="user_concern"></result>
+        <!--        &lt;!&ndash;    一对一映射&ndash;&gt;-->
+        <!--        <collection property="userAttentions" ofType="userAttention">-->
+        <!--            <id property="att_id" column="att_id"></id>-->
+        <!--            <result property="att_author_id" column="att_author_id"></result>-->
+        <!--            <result property="att_user_id" column="att_user_id"></result>-->
+        <!--        </collection>-->
+    </resultMap>
+
+
+    <!--    根据用户名查询相应的数据   结果映射-->
+    <select id="selectById" resultMap="userInfos">
+        select * from user_info  where user_id=#{user_id}
+    </select>
+
+
+
+    <!--    根据手机号进行相应的修改-->
+    <update id="updateUserInfo" parameterType="userInfo">
+        update user_info set
+        user_name=#{user_name},user_email=#{user_email},user_sex=#{user_sex},user_phone=#{user_phone}
+        ,user_ex=#{user_ex},user_time=#{user_time},user_show=#{user_show},user_blog=#{user_blog},user_img=#{user_img},user_fans=#{user_fans},user_concern=#{user_concern}
+        <where>
+            and user_id=#{user_id}
+        </where>
+    </update>
+
+
+    <update id="addAttention" parameterType="userInfo">
+        update user_info set user_concern=user_concern+1
+        <where>
+            and user_id=#{user_id}
+        </where>
+    </update>
+
+
+    <update id="subAttention" parameterType="userInfo">
+        update user_info set user_concern=user_concern-1
+        <where>
+            and user_id=#{user_id}
+        </where>
+    </update>
+
+
+    <!--    查询所有，把用户信息表与关注表结合-->
+    <!--    <select id="conbineUser" resultMap="userInfos">-->
+    <!--</select>-->
 
 
 </mapper>
