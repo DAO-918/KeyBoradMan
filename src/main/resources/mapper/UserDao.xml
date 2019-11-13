@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.UserDao">
+    <select id="login" parameterType="user" resultType="com.kp.domain.User">
+        select * from user where user_name=#{user_name} and user_password=#{user_password} and user_status=1
+    </select>
+    <insert id="register" parameterType="com.kp.domain.User">
+        insert into user (user_name,user_password,user_phone) values (#{user_name},#{user_password},#{user_phone})
+    </insert>
+    <update id="updatePassword" parameterType="com.kp.domain.User" >
+        UPDATE  user set user_password=#{user_password} where user_phone=#{user_phone}
 
+    </update>
+    <select id="findUser" parameterType="user" resultType="com.kp.domain.User">
+        select * from user where user_name=#{user_name}
+    </select>
+
+    <select id="findPhone" parameterType="user" resultType="com.kp.domain.User">
+        SELECT * from user where user_phone=#{user_phone}
+
+    </select>
 
 
 </mapper>

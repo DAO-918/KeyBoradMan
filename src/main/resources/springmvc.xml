@@ -11,8 +11,8 @@
 
     <!--配置的视图解析器对象-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/view/"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="prefix" value="/view/user/"/>
+        <property name="suffix" value=".html"/>
     </bean>
 
     <!--过滤静态资源-->
