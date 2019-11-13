@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.UserDao">
     <resultMap id="userMap" type="user">
-        <id property="userId" column="uid"/>
-        <result property="userName" column="uname"/>
-        <result property="userPassword" column="password"/>
-        <result property="userPhone" column="phone"/>
-        <result property="userStatus" column="status"/>
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userStatus" column="user_status"/>
     </resultMap>
 
 
@@ -25,6 +25,14 @@
         set user_status = 1
         where user_id = #{uid}
     </update>
+
+    <!--更加用户id查找-->
+    <select id="findById" parameterType="int" resultType="user" resultMap="userMap">
+        select user_status
+        from user
+        where user_id = #{userId}
+    </select>
+
 
 
 </mapper>

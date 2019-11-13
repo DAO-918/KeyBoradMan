@@ -1,7 +1,10 @@
 package com.kp.dao;
 
 
+import com.kp.domain.User;
 import org.springframework.stereotype.Repository;
+
+import java.util.zip.Inflater;
 
 @Repository
 public interface UserDao {
@@ -19,4 +22,10 @@ public interface UserDao {
      * 启用用户
      */
     void startUser(Integer uid);
+
+
+    /**
+     * 根据id 查找对象
+     */
+    User findById(Integer uid);
 }
