@@ -71,13 +71,14 @@ function InitMainArticleTable () {
         columns: [
             {checkbox: 'false',title:''},
             //{field: 'art_id', title: '编号'},
-            {field: 'user_name', title: '作者',sortable: true},
-            {field: 'art_title', title: '标题',sortable: true},
-            {field: 'tag_name', title: '标签',sortable: true},
-            {field: 'art_com_num', title: '评论数',sortable: true},
-            {field: 'art_hot_num', title: '浏览量',sortable: true},
-            {field: 'art_like_num', title: '点赞数',sortable: true},
-            {field: 'art_create_time', title: '发表时间',sortable: true},
+            {field: 'user_name', title: '作者'},
+            {field: 'art_title', title: '标题'},
+            {field: 'tag_name', title: '标签',},
+            {field: 'art_com_num', title: '评论数',},
+            {field: 'art_hot_num', title: '浏览量',},
+            {field: 'art_like_num', title: '点赞数',},
+            {field: 'art_create_time', title: '发表时间',
+                formatter: function (value, row, index) {return changeDateFormat(value)}},
             {field:'art_id',tittle:'操作',width:120,align:'center',formatter:actionFormatter}
         ],
         /*responseHandler:function (res) {
@@ -109,7 +110,7 @@ function deleteArticles() {
     var ids = "";//得到用户选择的数据的ID
     var rows = $("#back_article_table").bootstrapTable('getSelections');
     for (var i = 0; i < rows.length; i++) {
-        ids += rows[i].tag_id + ',';
+        ids += rows[i].art_id + ',';
     }
     ids = ids.substring(0, ids.length - 1);
 
@@ -117,8 +118,9 @@ function deleteArticles() {
     //$("#testJson").append(JSON.stringify(ids));
     //debugger;
     if (ids==""||ids==" ") {
-        document.getElementById("tipContent").innerText="请选择有效行";
-        $("#Tip").modal('show');
+        toastr.warning("请选择有效行!");
+        //document.getElementById("tipContent").innerText="请选择有效行";
+        //$("#Tip").modal('show');
     }else {
         deleteByIds(ids);
     }
@@ -131,10 +133,22 @@ function deleteByIds(ids) {
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo);
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#back_article_table").bootstrapTable('refresh');
         }
     })
 }
 
+function changeDateFormat(cellval) {
+    var dateVal = cellval + "";
+    if (cellval != null) {
+        var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;    }
+}

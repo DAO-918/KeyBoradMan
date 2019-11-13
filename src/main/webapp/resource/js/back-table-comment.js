@@ -62,7 +62,8 @@ function InitMainCommentTable() {
             {field: 'user_name', title: '评论者', },
             {field: 'com_content', title: '评论正文', },
             {field: 'com_like', title: '点赞数', },
-            {field: 'com_time', title: '评论时间', },
+            {field: 'com_time', title: '评论时间',
+                formatter: function (value, row, index) {return changeDateFormat(value)}},
             {field: 'com_id', tittle: '操作', width: 120, align: 'center', formatter: actionFormatter1}
         ],
         onDblClickRow: function (row, $element) {
@@ -96,7 +97,8 @@ function InitSubTable(index, row, $detail) {
             {field: 'user_name', title: '评论者', },
             {field: 'com_multi_content', title: '评论正文', },
             {field: 'com_multi_like', title: '点赞数', },
-            {field: 'com_multi_time', title: '评论时间', },
+            {field: 'com_multi_time', title: '评论时间',
+                formatter: function (value, row, index) {return changeDateFormat(value)}},
             {field: 'com_multi_id', tittle: '操作', width: 120, align: 'center', formatter: actionFormatter2}
         ],
         //无线循环取子表，直到子表里面没有记录
@@ -128,8 +130,9 @@ function deleteByIds1(ids) {
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#back_comment_table").bootstrapTable('refresh');
         }
     })
@@ -141,9 +144,22 @@ function deleteByIds2(ids) {
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#back_comment_table").bootstrapTable('refresh');
         }
     })
+}
+
+function changeDateFormat(cellval) {
+    var dateVal = cellval + "";
+    if (cellval != null) {
+        var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;    }
 }

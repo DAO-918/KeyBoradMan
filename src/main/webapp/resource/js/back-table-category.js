@@ -99,15 +99,17 @@ function addCategory(){
             //$("#testJson").empty();
             //$("#testJson").append(JSON.stringify(data));
 
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#addCategoryModal").modal('hide');
             $("#back_category_table").bootstrapTable('refresh');
             resetAddModal();
         },
         error:function(){
-            document.getElementById("tipContent").innerText="新增失败";
-            $("#Tip").modal('show');
+            toastr.error(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText="新增失败";
+            //$("#Tip").modal('show');
         }
     });
 }
@@ -127,8 +129,9 @@ function beforOpenEditModal() {
 function openEditModal() {
     var rows = $("#back_category_table").bootstrapTable('getSelections');
     if(rows.length!=1){
-        document.getElementById("tipContent").innerText="请选择一行数据";
-        $("#Tip").modal('show');
+        toastr.warning("请选择一行数据")
+        //document.getElementById("tipContent").innerText="请选择一行数据";
+        //$("#Tip").modal('show');
     }
     else{
         var row = rows[0];
@@ -151,14 +154,16 @@ function editCategory(){
             //$("#testJson").empty();
             //$("#testJson").append(JSON.stringify(data));
 
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#editCategoryModal").modal("hide");
             $("#back_category_table").bootstrapTable('refresh');
         },
         error:function(){
-            document.getElementById("tipContent").innerText="修改失败";
-            $("#Tip").modal('show');
+            toastr.error(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText="修改失败";
+            //$("#Tip").modal('show');
         }
     });
 }
@@ -175,8 +180,9 @@ function deleteCategorys() {
     //$("#testJson").empty();
     //$("#testJson").append(JSON.stringify(ids));
     if (ids=="") {
-        document.getElementById("tipContent").innerText="请选择有效行";
-        $("#Tip").modal('show');
+        toastr.warning(data.extend.msgInfo)
+        //document.getElementById("tipContent").innerText="请选择有效行";
+        //$("#Tip").modal('show');
     }else {
         deleteByIds(ids);
     }
@@ -189,8 +195,9 @@ function deleteByIds(ids) {
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#back_category_table").bootstrapTable('refresh');
         }
     })

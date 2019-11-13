@@ -130,8 +130,7 @@ function addTag(){
             //$("#testJson").empty();
             //$("#testJson").append(JSON.stringify(data));
 
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
             $("#addTagModal").modal('hide');
             $("#back_tag_table").bootstrapTable('refresh');
             resetAddModal();
@@ -195,14 +194,16 @@ function editTag(){
             //$("#testJson").empty();
             //$("#testJson").append(JSON.stringify(data));
 
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#editTagModal").modal("hide");
             $("#back_tag_table").bootstrapTable('refresh');
         },
         error:function(){
-            document.getElementById("tipContent").innerText="修改失败";
-            $("#Tip").modal('show');
+            toastr.error(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText="修改失败";
+            //$("#Tip").modal('show');
             $("#addTagModal").modal('hide');
         }
     });
@@ -221,8 +222,9 @@ function deleteTags() {
     //$("#testJson").append(JSON.stringify(ids));
     //debugger;
     if (ids==""||ids==" ") {
-        document.getElementById("tipContent").innerText="请选择有效行";
-        $("#Tip").modal('show');
+        toastr.warning(data.extend.msgInfo)
+        //document.getElementById("tipContent").innerText="请选择有效行";
+        //$("#Tip").modal('show');
     }else {
         deleteByIds(ids);
     }
@@ -235,8 +237,9 @@ function deleteByIds(ids) {
         data:{delIds:ids,_method:"DELETE"},
         dataType:"json",
         success:function (data) {
-            document.getElementById("tipContent").innerText=data.extend.msgInfo;
-            $("#Tip").modal('show');
+            toastr.success(data.extend.msgInfo)
+            //document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            //$("#Tip").modal('show');
             $("#back_tag_table").bootstrapTable('refresh');
         }
     })
