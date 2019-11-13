@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>静态网页传值(get)1</title>
+    <script>
+        function click1(){
+            var url = location.search; //这一条语句获取了包括问号开始到参数的最后，不包括前面的路径
+            var params = url.substr(1);//去掉问号
+            var pa = params.split("&");
+            var s = new Object();
+            for(var i = 0; i < pa.length; i ++){
+                s[pa[i].split("=")[0]] = unescape(pa[i].split("=")[1]);
+            }
+            document.getElementById("name").value =s.name;
+            document.getElementById("pwd").value = s.pwd;
+        }
+        /*
+            这种传值的方式很方便，而且简单有效，但是缺点是受到url长度的限制，由于每个浏览器对url长度的限制不同，这里不好给出一个确定的限制，
+            只知道这个传值传的数据量不能太大。
+        */
+    </script>
+
+</head>
+
+<body>
+
+名字：<input type="text" id="name"/>
+密码：<input type="text" id="pwd"/>
+<input type="button"  onclick="click1()" value="获取："/>
+
+</body>
+</html>

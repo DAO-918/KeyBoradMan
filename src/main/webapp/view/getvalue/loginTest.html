@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>静态网页传值(post)1</title>
+    <script>
+
+        function click1(){
+            var name = escape(document.getElementById("name").value);    //escape方法是改变编码
+
+            var pwd = escape(document.getElementById("pwd").value);
+
+            var url = "indexTest.html?"  + "name=" + name + "&pwd=" + pwd ; //进行拼接传值
+
+            location.href=url;
+        }
+    </script>
+</head>
+<body>
+名字：<input type="text" id="name"/>
+密码：<input type="text" id="pwd"/>
+<input type="button"  onclick="click1()" value="提交："/>
+</body>
+</html>
