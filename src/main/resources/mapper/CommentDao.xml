@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kp.dao.CommentDao">
+    <resultMap id="commentMap" type="comment">
+        <id property="com_id" column="com_id"></id>
+        <result property="com_content" column="com_content"></result>
+        <result property="com_art_id" column="com_art_id"></result>
+        <result property="com_user_id" column="com_user_id"></result>
+        <result property="com_like" column="com_like"></result>
+        <result property="com_time" column="com_time"></result>
+
+        <association property="userInfo" column="com_user_id" javaType="userinfo">
+            <id property="user_id" column="user_id"></id>
+            <result property="user_name" column="user_name"></result>
+            <result property="user_img" column="user_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="findGreatComment" parameterType="greatcomment" resultType="greatcomment">
+        select * from great_comment
+        where gc_com_id = #{gc_com_id} and gc_user_id=#{gc_user_id}
+    </select>
+
+    <insert id="saveGreatComment" parameterType="greatcomment">
+        insert into great_comment(gc_com_id,gc_user_id,gc_status) values (#{gc_com_id},#{gc_user_id},#{gc_status})
+    </insert>
+
+    <select id="findCommentByComId" parameterType="Integer" resultMap="commentMap">
+        select com_like from comment where com_id = #{com_id}
+    </select>
+
+    <update id="addComLike" parameterType="Integer">
+        update comment set com_like=com_like+1 where com_id = #{com_id}
+    </update>
+
+    <update id="decComLike" parameterType="Integer">
+        update comment set com_like=com_like-1 where com_id = #{com_id}
+    </update>
+
+    <update id="updateGreatComment" parameterType="greatcomment">
+        update great_comment set gc_status=#{gc_status} where gc_id=#{gc_id}
+    </update>
+
+    <insert id="savaComment" parameterType="comment">
+        insert into comment(com_art_id,com_user_id,com_content) values (#{com_art_id},#{com_user_id},#{com_content})
+    </insert>
+</mapper>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 文章页面</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css?v=4.1.0" rel="stylesheet">
+    <!-- 全局js -->
+    <script src="../js/jquery.min.js?v=2.1.4"></script>
+    <script src="../js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="../js/content.js?v=1.0.0"></script>
+    <script src="../js/getUrlParam.js"></script>
+
+    <!--样式表开始-->
+    <link type="text/css" rel="stylesheet" href="../css/demo.css">
+    <!--样式表结束-->
+    <!--   <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>-->
+    <script>
+
+        //定义评论点赞事件
+        function greatComment(bt) {
+            // var user_id = "${sessionScope.session.user_id}";
+            var user_id = 2;
+            var com_id = $(bt).next().val();
+            $.ajax({
+                url: "/greatComment",
+                data: "user_id=" + user_id + "&com_id=" + com_id,
+                type: "GET",
+                success: function (result) {
+                    // $("#bt_tag_name").html(result.articleTag.tag_name);
+                    $(bt).html(result.com_like);
+
+                }
+            })
+        }
+
+        //点赞样式方法
+        function praise(bt) {
+            var praise_img = $("#praise-img");
+            var text_box = $("#add-num");
+            var praise_txt = $("#praise-txt");
+            var num = parseInt(praise_txt.text());
+            if (praise_img.attr("src") == ("../images/yizan.png")) {
+                $(bt).html("<img src='../images/zan.png' id='praise-img' class='animation' />");
+                praise_txt.removeClass("hover");
+                text_box.show().html("<em class='add-animation'>-1</em>");
+                $(".add-animation").removeClass("hover");
+                num -= 1;
+                praise_txt.text(num)
+            } else {
+                $(bt).html("<img src='../images/yizan.png' id='praise-img' class='animation' />");
+                praise_txt.addClass("hover");
+                text_box.show().html("<em class='add-animation'>+1</em>");
+                $(".add-animation").addClass("hover");
+                num += 1;
+                praise_txt.text(num)
+            }
+        }
+
+        $(function () {
+            /*获取文章art_id*/
+            var art_id = UrlParam.paramValues("art_id");
+            $.ajax({    //通过文章id获取文章信息
+                url: "/articleById",
+                async: false,//同步
+                data: "art_id=" + art_id,
+                type: "GET",
+                success: function (result) {
+                    $("#bt_tag_name").html(result.articleTag.tag_name);
+                    $("#bt_tag_name").prop("href","blog.html?tag_name="+result.articleTag.tag_name);
+                    $("#art_title").html(result.art_title);
+                    $("#art_content").html(result.art_content);
+                    $("#praise-txt").html(result.art_like_num);
+                    $("#art_id_hidden").val(result.art_id);
+                }
+            })
+
+            var totalRecord, currentPage;
+            //显示第一页
+            to_page(1);
+
+            function to_page(pageNo) {
+                //根据文章id获取评论列表
+                $.ajax({
+                    url: "/comment",
+                    contentType: "application/json;charset=UTF-8",
+                    data: "art_id=" + art_id + "&pageNo=" + pageNo,
+                    /*data: '{"pageNo":'+pageNo+',"art_id":'+art_id+'}',*/
+                    method: "GET",
+                    success: function (result) {
+                        //1.解析并显示文章
+                        build_comment_table(result);
+                        //2.解析并显示分页信息
+                        build_page_info(result);
+                        //3.解析并显示分页条数据
+                        build_page_nav(result);
+                    }
+                })
+
+            }
+
+            //解析并显示文章评论
+            function build_comment_table(result) {
+                //清空table表格
+                $("#commentdiv").empty();
+                var commentList = result.extend.pageInfo.list;
+                $.each(commentList, function (index, item) {
+                    var str = "<div class=\"social-feed-box\">\n" +
+                        "                                        <div class=\"social-avatar\">\n" +
+                        "                                            <a href=\"\" class=\"pull-left\">\n" +
+                        "                                                <img alt=\"image\" src=\"img/a1.jpg\">\n" +
+                        "                                            </a>\n" +
+                        "                                            <div class=\"media-body\">\n" +
+                        "                                                <a href=\"#\">" + item.userInfo.user_name + "</a>\n" +
+                        "                                                <small class=\"text-muted\">" + result.time + "</small>\n" +
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"social-body\">\n" +
+                        "                                            <p>" + item.com_content + "</p>\n" +
+                        "                                            <div class=\"small text-right\">\n" +
+                        "                                                <div>\n" +
+                        "                                                    <button class=\"glyphicon glyphicon-thumbs-up\" id=\"bt_com_like\" onclick=\"greatComment(this)\" >" + item.com_like + "</button>\n" +
+                        "                                                    <input id='com_id_hidden' type='hidden' value=" + item.com_id + "\>" +
+                        "                                                </div>\n" +
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>";
+                    $("#commentdiv").append(str);
+                })
+
+
+            }
+
+            //解析显示评论分页信息
+            function build_page_info(result) {
+                $("#page_info_area").empty();
+                $("#page_info_area").append("当前" + result.extend.pageInfo.pageNum + "页,总共" + result.extend.pageInfo.pages +
+                    "页，总共" + result.extend.pageInfo.total + "条记录");
+                totalRecord = result.extend.pageInfo.total;
+                currentPage = result.extend.pageInfo.pageNum;
+            }
+
+            //解析显示评论分页导航条
+            function build_page_nav(result) {
+                $("#page_nav_area").empty();
+                var ul = $("<ul></ul>").addClass("pagination");
+                var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+                var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+                var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+                var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+                //如果没有前一页，前一页和首页就不能点
+                if (result.extend.pageInfo.hasPreviousPage == false) {
+                    firstPageLi.addClass("disabled");
+                    prePageLi.addClass("disabled");
+                } else {
+                    //首页
+                    firstPageLi.click(function () {
+                        to_page(1);
+                    });
+                    prePageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum - 1);
+                    });
+                }
+                if (result.extend.pageInfo.hasNextPage == false) {
+                    nextPageLi.addClass("disabled");
+                    lastPageLi.addClass("disabled");
+                } else {
+                    //构建点击事件
+
+                    nextPageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum + 1);
+                    });
+                    lastPageLi.click(function () {
+                        to_page(result.extend.pageInfo.lastPage);
+                    })
+                }
+                //添加首页和前一页
+                ul.append(firstPageLi).append(prePageLi);
+                //遍历添加页码
+                $.each(result.extend.pageInfo.navigatepageNums, function (index, item) {
+                    var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+                    //如果是当前选中页面，添加active标识
+                    if (result.extend.pageInfo.pageNum == item) {
+                        numLi.addClass("active");
+                    }
+                    //给每个页码添加点击就跳转
+                    numLi.click(function () {
+                        to_page(item);
+                    });
+                    ul.append(numLi);
+                });
+                //添加下一页和末页
+                ul.append(nextPageLi).append(lastPageLi);
+                var navEle = $("<nav></nav>").append(ul);
+                navEle.appendTo("#page_nav_area");
+            }
+
+            //添加一条评论
+            $("#bt_addComment").click(function () {
+                var user_id = 2;
+                var art_id = $("#art_id_hidden").val();
+                var com_content = $("#content").val();
+                $.ajax({
+                    url: "/comment",
+                    contentType:"application/json",
+                    data: '{"com_art_id":' + art_id + ',"com_user_id":' + user_id+',"com_content":"'+com_content+'"}',
+                    /*data:'{"com_art_id":2,"com_content":"sffff"}',*/
+                    /*data:{com_art_id:2,com_content:"sffff"},*/
+                    type:"POST",
+                    success:function (result) {
+                        if (result.code == 100) {
+                            //添加评论成功,来到最后一页，显示刚才保存的数据
+                            to_page(totalRecord);
+                        } else {
+                            alert("添加评论失败");
+                        }
+                    }
+                })
+            })
+        })
+
+
+
+        $(function () {
+            var user_id = 2;
+            var art_id = $("#art_id_hidden").val();
+            $.ajax({    //保证点赞图标样式正确
+                url: "/great",
+                data: "user_id=" + user_id + "&art_id=" + art_id,
+                type: "GET",
+                success: function (result) {
+                    if (result == null || result.ga_status == 0) {
+                        $("#praise-img").prop("src", "../images/zan.png");
+                    } else {
+                        $("#praise-img").prop("src", "../images/yizan.png");
+                    }
+                }
+            })
+
+            //文章点赞事件
+            $("#praise").click(function () {
+                praise(this);
+                var user_id = 2;
+                var art_id = $(this).next().val();
+                $.ajax({
+                    url: "/greatArticle",
+                    data: "user_id=" + user_id + "&art_id=" + art_id,
+                    type: "GET",
+                    success: function (result) {
+                        $("#praise-txt").html(result.art_like_num);
+                    }
+                })
+
+            })
+        })
+
+
+    </script>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+
+        <!--当前登录用户信息的隐藏域-->
+        <input type="hidden" class="input-text" value="${sessionScope.session.user_id}"
+               name="user_id" id="user_id">
+
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                        <a id="bt_tag_name" class="btn btn-white btn-xs" ></a>
+                    </div>
+                    <div class="text-center article-title">
+                        <h1 id="art_title">
+                        </h1>
+                    </div>
+                    <p id="art_content">
+                    </p>
+                    <div class="small text-center">
+                        <!--                        文章点赞-->
+                        <div class="praise">
+                            <span id="praise"><img src="../images/zan.png" id="praise-img"/></span>
+                            <input type="hidden" id="art_id_hidden">
+                            <span id="praise-txt"></span>
+                            <span id="add-num"><em>+1</em></span>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <!--评论div-->
+                    <!-- 发表评论 -->
+                    <div id="comment">
+                        <h3><strong>发表评论:</strong></h3>
+                        <p><span>内容：</span><textarea rows="10" id="content" cols="30" class="text-textarea"
+                                                     style="width: 100%;height: 130px"></textarea></p>
+                        <p style="text-align:right;">
+                            <button class="btn" id="bt_addComment">发表</button>
+                            <input type="hidden" id="art_id_conent">
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <h2>评论：</h2>
+
+                            <div id="commentdiv">
+
+                            </div>
+
+                            <!--显示分页信息 -->
+                            <div class="row">
+                                <!--分页文字信息 -->
+                                <div class="col-md-6 col-sm-6" id="page_info_area">
+                                    当前第页，总共页，总共条记录
+                                </div>
+                                <!--分页导航条信息 -->
+                                <div class="col-md-6 col-sm-6" id="page_nav_area">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

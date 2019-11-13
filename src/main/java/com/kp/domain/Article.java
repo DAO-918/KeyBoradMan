@@ -6,37 +6,40 @@ import java.util.List;
 public class Article {
     private Integer art_id;
     private Integer art_user_id;
+    private String art_theme;
     private String art_title;
     private Integer art_tag_id;
     private Integer art_category_id;
     private String art_content;
+    private String art_img;
     private Date art_create_time;
     private Integer art_com_num;
     private Integer art_hot_num;
     private Integer art_like_num;
 
     //多对一关系，多篇文章可以对应同个标签
-    private Article_tag article_tag;
+    private ArticleTag articleTag;
 
     //多对一关系，多篇文章对应一个作者
     private User user;
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "art_id=" + art_id +
-                ", art_user_id=" + art_user_id +
-                ", art_title='" + art_title + '\'' +
-                ", art_tag_id=" + art_tag_id +
-                ", art_category_id=" + art_category_id +
-                ", art_content='" + art_content + '\'' +
-                ", art_create_time=" + art_create_time +
-                ", art_com_num=" + art_com_num +
-                ", art_hot_num=" + art_hot_num +
-                ", art_like_num=" + art_like_num +
-                ", article_tag=" + article_tag +
-                ", user=" + user +
-                '}';
+    //一对多关系，一篇文章下路有多个评论
+    private List<Comment> commentList;
+
+    public String getArt_theme() {
+        return art_theme;
+    }
+
+    public void setArt_theme(String art_theme) {
+        this.art_theme = art_theme;
+    }
+
+    public String getArt_img() {
+        return art_img;
+    }
+
+    public void setArt_img(String art_img) {
+        this.art_img = art_img;
     }
 
     public Integer getArt_id() {
@@ -119,12 +122,12 @@ public class Article {
         this.art_like_num = art_like_num;
     }
 
-    public Article_tag getArticle_tag() {
-        return article_tag;
+    public ArticleTag getArticleTag() {
+        return articleTag;
     }
 
-    public void setArticle_tag(Article_tag article_tag) {
-        this.article_tag = article_tag;
+    public void setArticleTag(ArticleTag articleTag) {
+        this.articleTag = articleTag;
     }
 
     public User getUser() {
@@ -133,5 +136,13 @@ public class Article {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }
