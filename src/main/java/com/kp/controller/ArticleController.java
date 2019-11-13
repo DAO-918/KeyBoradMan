@@ -9,10 +9,14 @@ import com.kp.domain.Msg;
 import com.kp.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +51,7 @@ public class ArticleController {
     }
 
     //后台获取文章、标签、类型、作者
-    @GetMapping(value = "/bcarticle", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/bcarticle/", produces = "application/json;charset=UTF-8")
     public String getBackListArticle(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber,pageSize);
         List<BackArticle> articleList = articleService.findBackAllArticle();
@@ -56,5 +60,13 @@ public class ArticleController {
         result.put("total", pageInfo.getTotal());
         result.put("rows", pageInfo.getList());
         return result.toJSONString();
+    }
+
+    @RequestMapping(value="/bcarticle/", method= RequestMethod.DELETE)
+    public Msg deleteBackArticle(String delIds){
+        String[] Ids = delIds.split(",");
+        List<String> list = new ArrayList<>(Arrays.asList(Ids));
+        boolean flag = articleService.deleteBackArticle(list);
+        return Msg.sucess().add("msgInfo","删除文章操作成功").add("flag",flag);
     }
 }

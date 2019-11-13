@@ -56,4 +56,6 @@ public class ArticleTagController {
         result.put("rows", pageInfo.getList());
         return result.toJSONString();
     }
+
+
 }

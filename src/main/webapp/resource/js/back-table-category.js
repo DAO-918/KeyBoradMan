@@ -174,8 +174,12 @@ function deleteCategorys() {
 
     //$("#testJson").empty();
     //$("#testJson").append(JSON.stringify(ids));
-
-    deleteByIds(ids);
+    if (ids=="") {
+        document.getElementById("tipContent").innerText="请选择有效行";
+        $("#Tip").modal('show');
+    }else {
+        deleteByIds(ids);
+    }
 }
 
 function deleteByIds(ids) {

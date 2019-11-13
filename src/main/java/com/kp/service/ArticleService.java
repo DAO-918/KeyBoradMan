@@ -6,6 +6,9 @@ import com.kp.domain.BackArticle;
 import java.util.List;
 
 public interface ArticleService {
+    //后台删除文章
+    boolean deleteBackArticle(List<String> list);
+
     //获取所有文章和文章所属标签、作者
     List<Article> findAllArticle();
 

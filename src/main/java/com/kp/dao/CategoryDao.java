@@ -15,4 +15,8 @@ public interface CategoryDao {
     //public
     //查找所有类型
     public List<Category> findCategory();
+
+    //后台统计类型数量
+    int getTotalCategoryConunt();
+
 }

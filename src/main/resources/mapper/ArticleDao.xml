@@ -34,6 +34,13 @@
         left outer join user u on u.user_id=a.art_user_id
     </select>
 
+    <delete id="deleteBackArticle" parameterType="java.util.List">
+        delete from article where art_id in
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <select id="findBackAllArticle" resultType="backarticle">
         select a.*,tag.tag_name,u.user_name,c.category_name from article a
         left outer join article_tag tag on a.art_tag_id = tag.tag_id
@@ -41,4 +48,7 @@
         left outer join category c on a.art_category_id=c.category_id
     </select>
 
+    <select id="getTotalArticleConunt" resultType="java.lang.Integer">
+        select count(*) from article
+    </select>
 </mapper>

@@ -42,11 +42,11 @@
                                     <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                 </button>
                             </div>-->
-                            <!--<div id="toolbar">
-                                <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>
-                                <input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>
-                                <input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" data-target="#deleteUserModal" class="btn btn-primary" onclick="deleteUser()"></input>
-                            </div>-->
+                            <div id="toolbar">
+<!--                                <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>-->
+<!--                                <input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>-->
+                                <input type="button" value="删除文章" id="deleteBtn" data-toggle="modal" class="btn btn-primary" onclick="deleteArticles()"></input>
+                            </div>
                             <table id="back_article_table">
                                 <!--data-toggle="table" data-height="400" ata-query-params="queryParams" data-mobile-responsive="true" data-pagination="true" data-icon-size="outline" data-search="true"-->
                             </table>
@@ -59,7 +59,24 @@
     </div>
     <!-- End Panel Other -->
 </div>
+<div class="modal fade" id="Tip" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>提示</h3>
+            </div>
+            <div class="modal-body" align="center">
+                <h4 id="tipContent"></h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="testJson">
 
+</div>
 <!-- 全局js -->
 <script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
 <script src="../../resource/js/bootstrap.min.js"></script>
@@ -74,7 +91,7 @@
 <script src="../../resource/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 
 <!-- Peity -->
-<script src="../../resource/js/bootstrap-table-article.js"></script>
+<script src="../../resource/js/back-table-article.js"></script>
 
 <script>
 

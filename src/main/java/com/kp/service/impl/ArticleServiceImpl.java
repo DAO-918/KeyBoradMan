@@ -4,6 +4,7 @@ import com.kp.dao.ArticleDao;
 import com.kp.domain.Article;
 import com.kp.domain.BackArticle;
 import com.kp.service.ArticleService;
+import com.kp.utils.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
+
+    public boolean deleteBackArticle(List<String> list){
+        int i = articleDao.deleteBackArticle(list);
+        return Common.isDelete(i);
+    }
 
     @Override
     public List<Article> findAllArticle() {

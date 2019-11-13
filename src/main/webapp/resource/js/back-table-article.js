@@ -1,16 +1,8 @@
-var $table;
 //初始化bootstrap-table的内容
 function InitMainArticleTable () {
 
-    //记录页面bootstrap-table全局变量$table，方便应用
-    //var queryUrl = '/TestUser/FindWithPager?rnd=' + Math.random();
-    //请求方式（*）
-
     $("#back_article_table").bootstrapTable({
-
-        //type: "GET",
-        url: "/bcarticle",                //请求后台的URL（*）
-        //data: "pageNo=" + 1,
+        url: "/bcarticle/",                //请求后台的URL（*）
         dataType:"json",
 
         //此间是与client不一样的地方=======================开始
@@ -18,11 +10,11 @@ function InitMainArticleTable () {
         sidePagination : "server",      //分页方式：client客户端分页，server服务端分页（*）
         //如果使用client是否要返回一个json文件，为什么使用client无法显示数据
         method:"GET",                   //请求方式（*）
-        toolbar: '#toolbar',          //工具按钮用哪个容器
+        toolbar: '#toolbar',            //工具按钮用哪个容器
         search: false,                  //是否显示表格搜索
         showFooter : false,             //显示底部，默认不显示
         //sortName : "art_id",
-        sortable: false,                 //是否启用排序
+        sortable: false,                //是否启用排序
         sortOrder: "asc",               //排序方式
         //此间是与client不一样的地方=======================结束
         searchOnEnterKey : true,
@@ -95,7 +87,7 @@ function InitMainArticleTable () {
             return nres[0];
         }*/
         onDblClickRow: function (row, $element) {
-            alert(row.art_id);
+            //alert(row.art_id);
            //var id = row.ID;
            //EditViewById(id, 'view');
         },
@@ -106,25 +98,43 @@ function InitMainArticleTable () {
 function actionFormatter(value, row, index) {
     var id = value;
     var result = "";
-    result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
-    result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
-    result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+    // result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+    // result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+    result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"deleteByIds('" + row.art_id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
     return result;
 }
 
-//连接字段格式化
-function linkFormatter(value, row, index) {
-    return "<a href='" + value + "' title='单击打开连接' target='_blank'>" + value + "</a>";
-}
-//Email字段格式化
-function emailFormatter(value, row, index) {
-    return "<a href='mailto:" + value + "' title='单击打开连接'>" + value + "</a>";
-}
-//性别字段格式化
-function sexFormatter(value) {
-    if (value == "女") { color = 'Red'; }
-    else if (value == "男") { color = 'Green'; }
-    else { color = 'Yellow'; }
+//实现删除数据的方法
+function deleteArticles() {
+    var ids = "";//得到用户选择的数据的ID
+    var rows = $("#back_article_table").bootstrapTable('getSelections');
+    for (var i = 0; i < rows.length; i++) {
+        ids += rows[i].tag_id + ',';
+    }
+    ids = ids.substring(0, ids.length - 1);
 
-    return '<div  style="color: ' + color + '">' + value + '</div>';
+    //$("#testJson").empty();
+    //$("#testJson").append(JSON.stringify(ids));
+    //debugger;
+    if (ids==""||ids==" ") {
+        document.getElementById("tipContent").innerText="请选择有效行";
+        $("#Tip").modal('show');
+    }else {
+        deleteByIds(ids);
+    }
 }
+
+function deleteByIds(ids) {
+    $.ajax({
+        url:"/bcarticle/",
+        method:"post",
+        data:{delIds:ids,_method:"DELETE"},
+        dataType:"json",
+        success:function (data) {
+            document.getElementById("tipContent").innerText=data.extend.msgInfo;
+            $("#Tip").modal('show');
+            $("#back_article_table").bootstrapTable('refresh');
+        }
+    })
+}
+
