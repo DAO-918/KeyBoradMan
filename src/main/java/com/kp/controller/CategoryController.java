@@ -22,9 +22,6 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    //创建线程安全的Map
-    //static Map<Long, User> users = Collections.synchronizedMap(new HashMap<Long, User>());
-
     @RequestMapping(value="/", method= RequestMethod.PUT)
     public Msg insertCategory(Category category){
         boolean flag = categoryService.insertCategory(category);
