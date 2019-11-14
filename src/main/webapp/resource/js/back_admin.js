@@ -46,7 +46,7 @@ $(function () {
             var adminPwd = $("<td></td>").append(item.admin_login_pwd);
             var adminDat = $("<td></td>").append(item.admin_login_date);
 
-            var button1 = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn").append($("<span></span>").addClass("glyphicon glyphicon-pencil").attr("aria-hidden", true)).append("编辑");
+            // var button1 = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn").append($("<span></span>").addClass("glyphicon glyphicon-pencil").attr("aria-hidden", true)).append("编辑");
             var button2 = $("<button></button>").addClass("tn btn-danger btn-sm delete_btn").append($("<span></span>").addClass("glyphicon glyphicon-trash").attr("aria-hidden", true)).append("删除");
             var button3 = $("<button></button>").addClass("delete").append($("<span></span>").addClass("glyphicon glyphicon-trash").attr("aria-hidden", true)).append("测试");
             var td_btn = $("<td></td>").append(button1).append(" ").append(button2)

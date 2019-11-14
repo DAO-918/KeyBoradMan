@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,24 +51,35 @@ public class AdminController {
 
     @PutMapping("/addAdmin")
     public Msg addAdmin(Admin admin){
-        if (admin==null){
-            int adminCount = adminService.findAdminCount();
-            int num = adminCount + 1;
-            String adminnum = num + "";
-            String adminName = "admin"+ adminnum;
+        //if (admin==null){
+        List<String> name = adminService.findName();
+        int num = 0;
+        for(int i = 0;i<name.size();i++){
+            num = i;
+        }
+        String s = name.get(num);
+        String[] ss = s.split("n");
+        int num2 = 0;
+        for(int i = 0;i<ss.length;i++){
+            num2 = i;
+        }
+        String s1 = ss[num2];
+        int i1 = Integer.parseInt(s1);
+        int num3 = i1 +1;
+        String adminnum = Integer.toString(num3);
+        String adminName = "admin"+adminnum;
 
-            /*StringBuffer sb = new StringBuffer();
+        /*StringBuffer sb = new StringBuffer();
             for (int i = 0; i < 6; i++) {
                 int a = Math.abs((new Random()).nextInt(8)+1);
                 sb.append(a);
             }
-            String password=sb.toString();*/
+         String password=sb.toString();*/
 
-            String radom_num =""+(int)(Math.random()*999998+1);
-
-            admin.setAdmin_login_name(adminName);
-            admin.setAdmin_login_pwd(radom_num);
-        }
+        String radom_num =""+(int)(Math.random()*999998+1);
+        admin.setAdmin_login_name(adminName);
+        admin.setAdmin_login_pwd(radom_num);
+        //}
         adminService.addAdmin(admin);
 
         return Msg.sucess().add("admin",admin);
@@ -104,8 +114,6 @@ public class AdminController {
     /**
      * 管理员管理登陆
      */
-
-
     @PostMapping("/loginAdmin")
     public Msg loginAdmin(HttpSession session,Admin admin, String codes)  {
 
@@ -121,10 +129,10 @@ public class AdminController {
                     // 登陆成功 跳转页面
                     Date date = new Date();
                     String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-//                    Timestamp timestamp = Timestamp.valueOf(nowTime);
-//                    System.out.println(timestamp);
-                    Timestamp ts = new Timestamp(System.currentTimeMillis());
-                    date = ts;
+                    //Timestamp timestamp = Timestamp.valueOf(nowTime);
+                    //System.out.println(timestamp);
+                    //Timestamp ts = new Timestamp(System.currentTimeMillis());
+                    //date = ts;
                     Admin admin2 = new Admin();
                     admin2.setAdmin_id(admin_id);
                     admin2.setAdmin_login_date(nowTime);

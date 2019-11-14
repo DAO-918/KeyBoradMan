@@ -48,4 +48,8 @@
         where admin_id = #{admin_id}
     </update>
 
+    <select id="findName" resultType="java.lang.String" >
+        select admin_login_name
+        from admin
+    </select>
 </mapper>
