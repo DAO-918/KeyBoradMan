@@ -41,4 +41,7 @@ public interface AdminService {
      * 修改最后一次登陆时间
      */
     void updateLoginTime(Admin admin);
+
+
+    List<String> findName();
 }

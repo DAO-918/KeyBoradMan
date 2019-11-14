@@ -64,4 +64,10 @@ public class AdminServiceImpl implements AdminService {
     public void updateLoginTime(Admin admin) {
         adminDao.updateLoginTime(admin);
     }
+
+
+    @Override
+    public List<String> findName() {
+        return adminDao.findName();
+    }
 }

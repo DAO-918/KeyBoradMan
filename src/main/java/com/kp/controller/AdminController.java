@@ -55,10 +55,47 @@ public class AdminController {
 
     @PutMapping("/addAdmin")
     public Msg addAdmin(Admin admin){
-        int adminCount = adminService.findAdminCount();
-        int num = adminCount + 1;
-        String adminnum = num + "";
-        String adminName = "admin"+ adminnum;
+//        int adminCount = adminService.findAdminCount();
+//        int num = adminCount + 1;
+//        String adminnum = num + "";
+//        String adminName = "admin"+ adminnum;
+
+//        StringBuffer sb1 = new StringBuffer();
+//        for(int i = 0;i<4;i++){
+//            int a = Math.abs((new Random()).nextInt(9));
+//            sb1.append(a);
+//        }
+//        String num = sb1.toString();
+//
+//        String adminName = "admin"+num;
+
+        List<String> name = adminService.findName();
+
+        int num = 0;
+
+        for(int i = 0;i<name.size();i++){
+            num = i;
+        }
+
+        String s = name.get(num);
+
+        String[] ss = s.split("n");
+
+        int num2 = 0;
+
+        for(int i = 0;i<ss.length;i++){
+            num2 = i;
+        }
+
+        String s1 = ss[num2];
+
+        int i1 = Integer.parseInt(s1);
+
+        int num3 = i1 +1;
+
+        String adminnum = Integer.toString(num3);
+
+        String adminName = "admin"+adminnum;
 
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 6; i++) {
