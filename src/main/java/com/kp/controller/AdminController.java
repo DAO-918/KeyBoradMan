@@ -9,10 +9,7 @@ import com.kp.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,35 +52,24 @@ public class AdminController {
 
     @PutMapping("/addAdmin")
     public Msg addAdmin(Admin admin){
-        int adminCount = adminService.findAdminCount();
-        int num = adminCount + 1;
-        String adminnum = num + "";
-        String adminName = "admin"+ adminnum;
+        if (admin==null){
+            int adminCount = adminService.findAdminCount();
+            int num = adminCount + 1;
+            String adminnum = num + "";
+            String adminName = "admin"+ adminnum;
 
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < 6; i++) {
-            int a = Math.abs((new Random()).nextInt(9));// 产生0~57的随机数
-//            if (a <= 9) {// 将0~9转为char的0~9
-//                sb.append((char) (a + 48));
-//            } else if (a < 33) {// 将10~33转为char的A~Z
-//                if((a + 55) == 79 || (a + 55) == 73){
-//                    sb.append((char) (a + 63));
-//                }else{
-//                    sb.append((char) (a + 55));
-//                }
-//            } else {// 将33~57转为char的a~z
-//                sb.append((char) (a + 63));
-//            }
-            sb.append(a);
+            /*StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < 6; i++) {
+                int a = Math.abs((new Random()).nextInt(8)+1);
+                sb.append(a);
+            }
+            String password=sb.toString();*/
+
+            String radom_num =""+(int)(Math.random()*999998+1);
+
+            admin.setAdmin_login_name(adminName);
+            admin.setAdmin_login_pwd(radom_num);
         }
-        String password=sb.toString();
-
-
-
-        admin.setAdmin_login_name(adminName);
-        admin.setAdmin_login_pwd(password);
-
-
         adminService.addAdmin(admin);
 
         return Msg.sucess().add("admin",admin);
@@ -121,7 +107,7 @@ public class AdminController {
 
 
     @PostMapping("/loginAdmin")
-    public Msg loginAdmin(Admin admin, String codes)  {
+    public Msg loginAdmin(HttpSession session,Admin admin, String codes)  {
 
         String admin_login_name = admin.getAdmin_login_name();
         String admin_login_pwd = admin.getAdmin_login_pwd();
@@ -144,7 +130,8 @@ public class AdminController {
                     admin2.setAdmin_login_date(nowTime);
                     adminService.updateLoginTime(admin2);
                 Integer message = 200;
-                return Msg.sucess().add("message",message);
+                    session.setAttribute("loginAdminSession", admin_login_name);
+                    return Msg.sucess().add("message",message).add("loginAdmin",admin_login_name);
             }else{
                     Integer message = 501; //"用户名或者密码错误"
                 return Msg.sucess().add("message",message);

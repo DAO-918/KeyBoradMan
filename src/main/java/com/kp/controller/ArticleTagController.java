@@ -46,6 +46,13 @@ public class ArticleTagController {
         //{"code":100,"message":"处理成功","time":null,"extend":{"flag":true,"msgInfo":"更新标签操作成功"}}
     }
 
+    @RequestMapping(value="/exist/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public Msg isTagExist(String tag_name){
+        boolean flag = articleTagService.findBackTagByNameCount(tag_name);
+        String str = flag?"exist":"notexist";
+        return Msg.sucess().add("resultMsg",str);
+    }
+
     @RequestMapping(value="/bc/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public String getBackListTag(int pageNumber, int pageSize){
         PageHelper.startPage(pageNumber,pageSize);

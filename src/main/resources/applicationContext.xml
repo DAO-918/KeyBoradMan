@@ -27,7 +27,7 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${sql.driver}" />
         <property name="jdbcUrl" value="${sql.url}" />
-        <property name="user" value="${sql.user_name}" />
+        <property name="user" value="${sql.username}" />
         <property name="password" value="${sql.password}" />
         <!-- 配置初始化大小、最小、最大 -->
 <!--        <property name="initialSize" value="1" />-->

@@ -1,8 +1,6 @@
-package com.kp.dao;
+package com.kp.service;
 
-import com.kp.domain.User;
-
-public interface UserDao {
+public interface IUserService {
 
     /**
      *
@@ -14,14 +12,16 @@ public interface UserDao {
 
     /**
      * 启用用户
+     * 修改用户状态值为 1
      */
     void startUser(Integer uid);
 
 
     /**
-     * 根据id 查找对象
+     * 启用与 停止 用户状态
      */
-    User findById(Integer uid);
-    //统计所有活跃用户数量
-    int getTotalUserConunt();
+    void update(Integer uid);
+
+
+
 }

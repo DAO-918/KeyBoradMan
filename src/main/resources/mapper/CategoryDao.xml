@@ -24,6 +24,10 @@
         select * from category
     </select>
 
+    <select id="findBackCategoryByNameCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM category WHERE category.category_name=#{category_name}
+    </select>
+
     <select id="getTotalCategoryConunt" resultType="java.lang.Integer">
         select count(*) from category
     </select>

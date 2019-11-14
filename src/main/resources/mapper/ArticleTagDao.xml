@@ -25,6 +25,10 @@
         Left JOIN category on article_tag.tag_cid=category_id
     </select>
 
+    <select id="findBackTagByNameCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM article_tag WHERE article_tag.tag_name=#{tag_name}
+    </select>
+
     <select id="getTotalTagConunt" resultType="java.lang.Integer">
         select count(*) from article_tag
     </select>

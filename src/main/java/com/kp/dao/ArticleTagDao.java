@@ -14,6 +14,8 @@ public interface ArticleTagDao {
     public int updateTag(ArticleTag articleTag);
     //后台获取所有标签及类型、类型说明、类型id
     public List<BackTag> findBackTag();
+    //根据名称搜索
+    public int findBackTagByNameCount(String tag_name);
     //后台获取所有标签数量
     int getTotalTagConunt();
 

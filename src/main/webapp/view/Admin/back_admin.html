@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../../resource/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../resource/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../resource/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../../resource/css/animate.css" rel="stylesheet">
+    <link href="../../resource/css/style.css?v=4.1.0" rel="stylesheet">
+
+    <script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../../resource/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="../../resource/js/content.js?v=1.0.0"></script>
+    <script src="../../resource/js/back_admin.js"></script>
+
+    <!-- iCheck -->
+    <script src="../../resource/js/plugins/iCheck/icheck.min.js"></script>
+
+</head>
+<body>
+<div class="ibox-content">
+    <div class="row">
+        <div class="col-md-6 ">
+            <h2>管理员信息页面</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <input id="seek_name" type="text" placeholder="请输入关键词" style="width: 150px;margin-right: 10px;border-radius: 5px" class="input-sm form-control">
+                <span class="input-group-btn"><button type="button" class="btns btn-sm btn-primary"
+                                                      id="seek_btn"> 搜索</button></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8">
+            <button class="btn btn-primary" id="admin_add_modal_btn">新增</button>
+            <button class="btn btn-danger" id="admin_delete_all_btn">删除</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" id="admin_table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>管理员id</th>
+                <th>管理员名称</th>
+                <th>管理员密码</th>
+                <th>管理员最后登陆时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <!--分页文字信息 -->
+            <div class="col-md-6 " id="page_info_area">
+                当前第页，总共页，总共条记录
+            </div>
+            <!--分页导航条信息 -->
+            <div class="col-md-6 " id="page_nav_area">
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新增管理员</h3>
+            </div>
+            <div class="modal-body">
+                <form id="addAdminForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="add_input1" class="col-sm-2 control-label">管理员账号</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="admin_login_name" class="form-control" id="add_input1" placeholder="请填写管理员账号"/>
+                        </div>
+                        <label id="error1" for="add_input1" class="col-sm-3 control-label"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_input2" class="col-sm-2 control-label">管理员密码</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="admin_login_pwd" class="form-control" id="add_input2" placeholder="请填写管理员密码"/>
+                        </div>
+                        <label id="error_2" for="add_input2" class="col-sm-3 control-label"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="conf_edit" class="btn btn-default" onclick="addAdmin2()">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeAddAdminModal()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+</body>
+</html>

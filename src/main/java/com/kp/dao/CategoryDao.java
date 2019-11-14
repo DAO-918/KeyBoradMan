@@ -15,8 +15,9 @@ public interface CategoryDao {
     //public
     //查找所有类型
     public List<Category> findCategory();
-
     //后台统计类型数量
     int getTotalCategoryConunt();
+    //查看类型是否存在
+    public int findBackCategoryByNameCount(String category_name);
 
 }

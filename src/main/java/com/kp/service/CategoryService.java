@@ -15,4 +15,6 @@ public interface CategoryService {
     public List<Category> findBackCategory();
     //查找所有类型
     public List<Category> findCategory();
+    //查看类型是否存在
+    public boolean findBackCategoryByNameCount(String category_name);
 }

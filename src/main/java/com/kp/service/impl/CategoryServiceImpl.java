@@ -43,4 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categoryList = categoryDao.findCategory();
         return categoryList;
     }
+
+    @Override
+    public boolean findBackCategoryByNameCount(String category_name) {
+        int i = categoryDao.findBackCategoryByNameCount(category_name);
+        return Common.isCUR(i);
+    }
 }

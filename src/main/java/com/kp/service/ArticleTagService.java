@@ -12,6 +12,8 @@ public interface ArticleTagService {
     public boolean deleteTag(List<String> list);
     //更新标签
     public boolean updateTag(ArticleTag articleTag);
+    //根据名称搜索
+    public boolean findBackTagByNameCount(String tag_name);
     //后台获取所有标签及类型、类型说明、类型id
     public List<BackTag> findBackTag();
 }

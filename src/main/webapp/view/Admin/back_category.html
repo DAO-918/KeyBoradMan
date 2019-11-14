@@ -53,7 +53,40 @@
                 hideMethod: "fadeOut"//隐藏的方式，和jquery相同
             }
             InitMainCategoryTable();
+            $('#addCategoryModal').on('hide.bs.modal', function () {
+                var span = $("#error1");
+                span.empty();
+            });
         })
+
+        function checkCategoryExist() {
+            var category_name = $("#add_input1").val().trim();
+            var span = $("#error1");
+            span.empty();
+            if (category_name==""||category_name==null){
+                span.append("不能为空");
+                $("#conf_add").attr("disabled",true);
+                return false;
+            }
+            $.ajax({
+                url:"/category/exist/",
+                method:"GET",
+                data:{"category_name":category_name},
+                dataType:"json",
+                success:function (data) {
+                    //alert(JSON.stringify(result));
+                    //debugger;
+                    var result = data.extend.resultMsg;
+                    if (result=="exist"){
+                        span.append("标签已存在");
+                        $("#conf_add").attr("disabled",true);
+                    } else if (result=="notexist"){
+                        span.append("标签可用");
+                        $("#conf_add").attr("disabled",false);
+                    }
+                }
+            })
+        }
     </script>
 </head>
 
@@ -106,7 +139,7 @@
                     <div class="form-group">
                         <label for="add_input1" class="col-sm-2 control-label">类型名称</label>
                         <div class="col-sm-7">
-                            <input type="text" name="category_name" class="form-control" id="add_input1" placeholder="请填写类型名称"/>
+                            <input type="text" name="category_name" class="form-control" id="add_input1" placeholder="请填写类型名称" onchange="checkCategoryExist()"/>
                         </div>
                         <label id="error1" for="add_input1" class="col-sm-3 control-label"></label>
                     </div>

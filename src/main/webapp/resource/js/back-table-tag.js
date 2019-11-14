@@ -116,6 +116,7 @@ function openAddModal() {
     $("#addTagModal").modal('show');
 }
 
+
 //新增标签
 function addTag(){
     var param = $("#addTagForm").serialize();

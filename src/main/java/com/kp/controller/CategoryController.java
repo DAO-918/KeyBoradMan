@@ -54,6 +54,13 @@ public class CategoryController {
         return result.toJSONString();
     }
 
+    @RequestMapping(value="/exist/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public Msg isCategoryExist(String category_name){
+        boolean flag = categoryService.findBackCategoryByNameCount(category_name);
+        String str = flag?"exist":"notexist";
+        return Msg.sucess().add("resultMsg",str);
+    }
+
     @RequestMapping(value="/", method= RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public List<Category> findCategory(){
         List<Category> categoryList = categoryService.findCategory();

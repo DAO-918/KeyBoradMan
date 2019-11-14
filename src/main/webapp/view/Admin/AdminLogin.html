@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../resource/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../resource/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../../resource/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../../resource/css/animate.css" rel="stylesheet">
+    <link href="../../resource/css/style.css?v=4.1.0" rel="stylesheet">
+
+    <script src="../../resource/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../../resource/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    <!-- 自定义js -->
+    <script src="../../resource/js/content.js?v=1.0.0"></script>
+    <script src="../../resource/js/admin_login.js"></script>
+
+    <!-- iCheck -->
+    <script src="../../resource/js/plugins/iCheck/icheck.min.js"></script>
+
+    <style>
+        body {
+            background-image: url("../../resource/img/main01.jpg");
+            background-position: center 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            -moz-background-size: cover;
+            -ms-background-size: cover;
+        }
+        .div-middle{
+            margin-top: 200px;
+        }
+        .login_div{
+            background-color: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .form-control-feedback{
+            line-height: 46px;
+            left: 20px;
+        }
+        .input-group-lg{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row div-middle">
+        <div class="col-md-8 ">
+
+        </div>
+        <div class="col-md-4 login_div">
+                <form class="form-signin">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <div class="col-md-12 input-group-lg">
+                        <span class="glyphicon glyphicon-user form-control-feedback" ></span>
+                        <input type="text" id="user_name" class="form-control" style="padding-left: 40px" placeholder="管理员账号">
+                    </div>
+
+                    <div class="col-md-12 input-group-lg">
+                        <span class="glyphicon glyphicon-lock form-control-feedback" ></span>
+                        <input type="password" id="password" class="form-control" style="padding-left: 40px" placeholder="管理员密码">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="col-md-7 input-group-lg">
+                                <span class="glyphicon glyphicon-asterisk form-control-feedback" ></span>
+                                <input type="text" id="codes" class="form-control" style="padding-left: 40px" placeholder="验证码">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="button" class="btn btn-primary btn-lg" style="margin-top: 10px" id="gain_code" value="获取验证码">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" style="margin-top: 10px;" type="button">Sign in</button>
+                </form>
+    </div>
+</div> <!-- /container -->
+</div>
+</body>
+</html>

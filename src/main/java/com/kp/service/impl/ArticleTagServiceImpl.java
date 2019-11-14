@@ -34,6 +34,12 @@ public class ArticleTagServiceImpl implements ArticleTagService {
     }
 
     @Override
+    public boolean findBackTagByNameCount(String tag_name) {
+        int i = articleTagDao.findBackTagByNameCount(tag_name);
+        return Common.isCUR(i);
+    }
+
+    @Override
     public List<BackTag> findBackTag() {
         List<BackTag> tagList = articleTagDao.findBackTag();
         return tagList;

@@ -24,6 +24,16 @@
     <mvc:resources mapping="/Home/" location="/view/Home/**"/>
     <mvc:resources mapping="/UserInfo/" location="/view/UserInfo/**"/>-->
 
+    <!--拦截器 -->
+    <mvc:interceptors>
+    <!--多个拦截器,顺序执行 -->
+    <mvc:interceptor>
+        <mvc:mapping path="/view/Admin/back*.html"/>
+        <bean class="com.kp.interceptor.AdminLoginInterceptor"></bean>
+    </mvc:interceptor>
+
+    </mvc:interceptors>
+
     <!--开启springMVC注解的支持-->
     <mvc:annotation-driven/>
 
