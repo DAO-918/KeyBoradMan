@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.ArticleDao">
-    <resultMap id="articleMap" type="com.kp.domain.Article">
-        <id property="artId" column="art_id"/>
-        <result property="artUserId" column="art_user_id"/>
-        <result property="artTitle" column="art_title"/>
-        <result property="artTagId" column="art_tag_id"/>
-        <result property="artCategoryId" column="art_category_id"/>
-        <result property="artContent" column="art_content"/>
-        <result property="artCreateTime" column="art_create_time"/>
-        <result property="artComNum" column="art_com_num"/>
-        <result property="artHotNum" column="art_hot_num"/>
-        <result property="artLikeNum" column="art_like_num"/>
-    </resultMap>
 
-    <select id="findArticleCount" resultMap="articleMap" parameterType="int" resultType="int">
-        select count(*)
-        from article
-        where art_user_id = #{artUserId}
-    </select>
 
 
 </mapper>

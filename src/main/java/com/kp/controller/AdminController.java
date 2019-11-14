@@ -80,8 +80,8 @@ public class AdminController {
 
 
 
-        admin.setAdminLoginName(adminName);
-        admin.setAdminLoginPwd(password);
+        admin.setAdmin_login_name(adminName);
+        admin.setAdmin_login_pwd(password);
 
 
         adminService.addAdmin(admin);
@@ -123,25 +123,25 @@ public class AdminController {
     @PostMapping("/loginAdmin")
     public Msg loginAdmin(Admin admin, String codes)  {
 
-        String adminLoginName = admin.getAdminLoginName();
-        String adminLoginPwd = admin.getAdminLoginPwd();
-        if(adminLoginName != null && !adminLoginName.equals("")
-                && adminLoginPwd != null && !adminLoginPwd.equals("")){
+        String admin_login_name = admin.getAdmin_login_name();
+        String admin_login_pwd = admin.getAdmin_login_pwd();
+        if(admin_login_name != null && !admin_login_name.equals("")
+                && admin_login_pwd != null && !admin_login_pwd.equals("")){
             if(codes.equals(code)){
                 List<Admin> admins = adminService.loginAdmin(admin);
-                Integer adminId = admins.get(0).getAdminId();
+                Integer admin_id = admins.get(0).getAdmin_id();
 
                 if(admins.size() >0){
                     // 登陆成功 跳转页面
                     Date date = new Date();
-//                    String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                    String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 //                    Timestamp timestamp = Timestamp.valueOf(nowTime);
 //                    System.out.println(timestamp);
                     Timestamp ts = new Timestamp(System.currentTimeMillis());
                     date = ts;
                     Admin admin2 = new Admin();
-                    admin2.setAdminId(adminId);
-                    admin2.setAdminLoginDate(date);
+                    admin2.setAdmin_id(admin_id);
+                    admin2.setAdmin_login_date(nowTime);
                     adminService.updateLoginTime(admin2);
                 Integer message = 200;
                 return Msg.sucess().add("message",message);

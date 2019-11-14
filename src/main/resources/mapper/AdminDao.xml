@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.AdminDao">
     <resultMap id="adminMap" type="admin">
-        <id property="adminId" column="admin_id"/>
-        <result property="adminLoginName" column="admin_login_name"/>
-        <result property="adminLoginPwd" column="admin_login_pwd"/>
-        <result property="adminLoginDate" column="admin_login_date"/>
+        <id property="admin_id" column="admin_id"/>
+        <result property="admin_login_name" column="admin_login_name"/>
+        <result property="admin_login_pwd" column="admin_login_pwd"/>
+        <result property="admin_login_date" column="admin_login_date"/>
     </resultMap>
 
     <select id="findAll" resultMap="adminMap" resultType="admin" parameterType="admin">
         select * from admin
         where 1= 1
-        <if test="adminLoginName != null">
-            and admin_login_name like concat('%',#{adminLoginName},'%')
+        <if test="admin_login_name != null">
+            and admin_login_name like concat('%',#{admin_login_name},'%')
         </if>
     </select>
 
@@ -25,27 +25,27 @@
     <insert id="addAdmin" parameterType="admin">
         insert into admin
         (admin_login_name,admin_login_pwd)
-        values (#{adminLoginName},#{adminLoginPwd})
+        values (#{admin_login_name},#{admin_login_pwd})
     </insert>
 
     <!-- 删除管理员-->
     <delete id="deleteAdmin" parameterType="int">
         delete from admin
-        where admin_id = #{adminId}
+        where admin_id = #{admin_id}
     </delete>
 
 
     <!-- 登陆-->
     <select id="loginAdmin" resultMap="adminMap" resultType="admin" parameterType="admin">
         select * from admin
-        where  admin_login_name = #{adminLoginName} and admin_login_pwd = #{adminLoginPwd}
+        where  admin_login_name = #{admin_login_name} and admin_login_pwd = #{admin_login_pwd}
     </select>
 
 
     <update id="updateLoginTime" parameterType="admin" >
         update admin
-        set  admin_login_date =  #{adminLoginDate}
-        where admin_id = #{adminId}
+        set  admin_login_date =  #{admin_login_date}
+        where admin_id = #{admin_id}
     </update>
 
 </mapper>
