@@ -1,7 +1,7 @@
 package com.kp.dao;
 
-import com.kp.domain.User;
-import org.springframework.stereotype.Repository;
+        import com.kp.domain.User;
+        import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserDao {
