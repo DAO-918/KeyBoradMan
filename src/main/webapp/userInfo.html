@@ -28,7 +28,7 @@
                             + "<tr><th>当前时间</th>" + "<td>" + '<input type="text" name="user_time" id="user_time"  value=' + userInfos[t].user_time + '>' + "</td></tr>"
                             + "<tr><th>个性签名</th>" + "<td>" + '<input type="text" name="user_show" id="user_show"  value=' + userInfos[t].user_show + '>' + "</td></tr>"
                             + "<tr><th>主页链接</th>" + "<td>" + '<input type="text" name="user_blog" id="user_blog"  value=' + userInfos[t].user_blog + '>' + "</td></tr>"
-                            + "<tr><th>头像</th>" + "<td>" + '<input type="file" id="user_img"  name="file">' + "</td></tr>"
+                            + "<tr><th>头像</th>" + "<td>" + '<input type="file" id="user_img"  name="file"><img style="width: 50px;height: 50px" src="/uploadFiles/'+userInfos[t].user_img+'">' + "</td></tr>"
                             + "<tr><th>粉丝</th>" + "<td>" + '<input type="text" name="user_fans" id="user_fans" value=' + userInfos[t].user_fans + '>' + "</td></tr>"
                             + "<tr><th>关注</th>" + "<td>" + '<input type="text" name="user_concern" id="user_concern" value=' + userInfos[t].user_concern + '>' + "</td></tr>"
                             + "<tr><td align='center' colspan='2'><input type='button' class='Attention' value='关注我'  onclick=" + changes() + ">&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' value='保存'></td></tr>")
