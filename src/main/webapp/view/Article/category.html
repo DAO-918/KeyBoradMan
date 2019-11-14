@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+
+    <script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../static/admin/js/main.js" type="text/javascript" charset="utf-8"></script>
+    <link href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../static/bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        .layui-input{
+            width: 300px;
+        }
+        .col-sm-4{
+            margin-left: -100px;
+        }
+        .col-sm-8{
+            width: 70%;
+            left: 50px;
+        }
+        .wenxin{
+            margin-left: 100px;
+            width: 312px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <form class="layui-form"  method="post" id="myForm" action="/admin/tag/insertSubmit">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <strong>添加标签</strong>
+                </div>
+                <div class="layui-input-block">
+                    名称 <span style="color: #FF5722; ">*</span>
+                    <input type="text" name="tagName" placeholder="请输入类别名称" autocomplete="off" class="layui-input" required>
+                </div>
+                <br>
+                <div class="layui-input-block">
+                    标签描述
+                    <input type="text" name="tagDescription" placeholder="请输入类别描述" autocomplete="off" class="layui-input" >
+                </div>
+                <br>
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-filter="formDemo" type="submit">添加</button>
+                </div>
+            </div>
+        </form>
+        <blockquote class="layui-elem-quote layui-quote-nm wenxin">
+            温馨提示：
+            <ul>
+                <li>1、类别名必选，建议不要太长</li>
+                <li>2、类别名勿重复</li>
+            </ul>
+        </blockquote>
+    </div>
+    <div class="col-sm-8" >
+
+        <table class="layui-table" >
+            <colgroup>
+                <col width="50">
+                <col width="300">
+                <col width="100">
+                <col width="50">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <td align="center">操作</td>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <tr>
+                <td >编号</td>
+                <td>
+                    <a href="/tag/${c.tagId}" target="_blank">JavaEE</a>
+                </td>
+                <td align="center">
+                    <a href="/admin/tag/edit/${c.tagId}" class="layui-btn layui-btn-mini">编辑</a>
+
+                    <a href="/admin/tag/delete/${c.tagId}" class="layui-btn layui-btn-danger layui-btn-mini" onclick="return confirmDelete()">删除</a>
+
+                </td>
+
+            </tr>
+
+
+            </tbody>
+        </table>
+        <blockquote class="layui-elem-quote layui-quote-nm">
+            温馨提示：
+            <ul>
+                <li>如果该类别包含文章，将不可删除</li>
+            </ul>
+        </blockquote>
+    </div>
+</div>
+</body>
+</html>

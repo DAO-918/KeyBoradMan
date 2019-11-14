@@ -30,12 +30,12 @@
         <property name="user" value="${sql.username}" />
         <property name="password" value="${sql.password}" />
         <!-- 配置初始化大小、最小、最大 -->
-<!--        <property name="initialSize" value="1" />-->
-<!--        <property name="minIdle" value="1" />-->
-<!--        <property name="maxActive" value="20" />-->
+        <!--        <property name="initialSize" value="1" />-->
+        <!--        <property name="minIdle" value="1" />-->
+        <!--        <property name="maxActive" value="20" />-->
 
         <!-- 配置获取连接等待超时的时间 -->
-<!--        <property name="maxWait" value="60000" />-->
+        <!--        <property name="maxWait" value="60000" />-->
     </bean>
 
     <!-- 配置SqlsessionFactory工厂(上传头像要用的)-->
@@ -49,8 +49,8 @@
         <!--指定需要使用别名的PO类所在的包-->
         <property name="typeAliasesPackage" value="com.kp.domain"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml">
-        <!--如果Mapper.xml与Mapper.class不在同一个包下或者不同名，就必须使用配置mapperLocations指定mapper.xml的位置。
-            此时spring是通过识别mapper.xml中的 <mapper namespace="com.fan.mapper.UserDao"> namespace的值来确定对应的Mapper.class的。-->
+            <!--如果Mapper.xml与Mapper.class不在同一个包下或者不同名，就必须使用配置mapperLocations指定mapper.xml的位置。
+                此时spring是通过识别mapper.xml中的 <mapper namespace="com.fan.mapper.UserDao"> namespace的值来确定对应的Mapper.class的。-->
         </property>
 
         <property name="plugins">

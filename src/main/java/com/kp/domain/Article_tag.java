@@ -1,10 +1,24 @@
 package com.kp.domain;
 
+/**
+ * @author Administrator
+ */
 public class Article_tag {
     private Integer tag_id;
     private Integer tag_cid;//标签类别
     private String tag_name;
     private String tag_content;//标签介绍
+
+//    一对一查询:关联类别表
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {
@@ -13,6 +27,7 @@ public class Article_tag {
                 ", tag_cid=" + tag_cid +
                 ", tag_name='" + tag_name + '\'' +
                 ", tag_content='" + tag_content + '\'' +
+                ", category=" + category +
                 '}';
     }
 
