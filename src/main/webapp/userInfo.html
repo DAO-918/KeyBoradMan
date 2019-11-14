@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>编辑页面</title>
     <script src="resource/js/jquery.min.js"></script>
     <script src="resource/js/bootstrap.min.js"></script>
-    <!--    导入相关的css样式-->
+    <!--        导入相关的css样式-->
     <link rel="stylesheet" href="resource/css/user/MYCSS.css">
     <script>
         $(function () {
             $.ajax({
                 url: "userInfo/selectById?user_id=1",
-                // data: {user_id:user_id},
+                // data: {"user_id":1},
                 type: "post",
                 processData: false,
                 contentType: false,
@@ -19,19 +19,19 @@
                 success: function (userInfos) {
                     var table = $("#tables");
                     for (var t in userInfos) {
-                        table.append("<tr><th>用户id</th>" + "<td>" + '<input type="text" name="user_id" id="user_id" value=' + userInfos[t].user_id + '>' + "</td></tr>"
-                            + "<tr><th><span class='us-red'>*</span>用户名</th>" + "<td>" + '<input type="text" name="user_name" id="user_name" class="us-text" value=' + userInfos[t].user_name + '>' + "</td></tr>"
-                            + "<tr><th>邮箱</th>" + "<td>" + '<input type="text" name="user_email" id="user_email" class="us-text" value=' + userInfos[t].user_email + '>' + "</td></tr>"
+                        table.append("<tr><th>用户id</th>" + "<td>" + '<input type="text" id="user_id" name="user_id" value='+userInfos[t].user_id+'>' + "</td></tr>"
+                            + "<tr><th><span>*</span>用户名</th>" + "<td>" + '<input type="text" name="user_name" id="user_name"  value=' + userInfos[t].user_name + '>' + "</td></tr>"
+                            + "<tr><th>邮箱</th>" + "<td>" + '<input type="text" name="user_email" id="user_email"  value=' + userInfos[t].user_email + '>' + "</td></tr>"
                             + "<tr><th>性别</th>" + "<td>" + '<input type="text" name="user_sex" id="user_sex" class="input" value=' + userInfos[t].user_sex + '>' + "</td></tr>"
-                            + "<tr><th><span class='us-red'>*</span>联系方式</th>" + "<td>" + '<input type="text" name="user_phone" id="user_phone" class="us-text"  placeholder=' + userInfos[t].user_phone + ' value=' + userInfos[t].user_phone + '>' + "</td></tr>"
-                            + "<tr><th>用户经验</th>" + "<td>" + '<input type="text" name="user_ex" id="user_ex" class="us-text" value=' + userInfos[t].user_ex + '>' + "</td></tr>"
-                            + "<tr><th>当前时间</th>" + "<td>" + '<input type="text" name="user_time" id="user_time" class="us-text" value=' + userInfos[t].user_time + '>' + "</td></tr>"
-                            + "<tr><th>个性签名</th>" + "<td>" + '<input type="text" name="user_show" id="user_show" class="us-text" value=' + userInfos[t].user_show + '>' + "</td></tr>"
-                            + "<tr><th>主页链接</th>" + "<td>" + '<input type="text" name="user_blog" id="user_blog" class="us-text" value=' + userInfos[t].user_blog + '>' + "</td></tr>"
-                            + "<tr><th>头像</th>" + "<td>" + '<input type="file" name="user_img" id="user_img"/><div class="background"></div>' + "</td></tr>"
+                            + "<tr><th><span>*</span>联系方式</th>" + "<td>" + '<input type="text" name="user_phone" id="user_phone"   placeholder=' + userInfos[t].user_phone + ' value=' + userInfos[t].user_phone + '>' + "</td></tr>"
+                            + "<tr><th>用户经验</th>" + "<td>" + '<input type="text" name="user_ex" id="user_ex"  value=' + userInfos[t].user_ex + '>' + "</td></tr>"
+                            + "<tr><th>当前时间</th>" + "<td>" + '<input type="text" name="user_time" id="user_time"  value=' + userInfos[t].user_time + '>' + "</td></tr>"
+                            + "<tr><th>个性签名</th>" + "<td>" + '<input type="text" name="user_show" id="user_show"  value=' + userInfos[t].user_show + '>' + "</td></tr>"
+                            + "<tr><th>主页链接</th>" + "<td>" + '<input type="text" name="user_blog" id="user_blog"  value=' + userInfos[t].user_blog + '>' + "</td></tr>"
+                            + "<tr><th>头像</th>" + "<td>" + '<input type="file" id="user_img"  name="file">' + "</td></tr>"
                             + "<tr><th>粉丝</th>" + "<td>" + '<input type="text" name="user_fans" id="user_fans" value=' + userInfos[t].user_fans + '>' + "</td></tr>"
                             + "<tr><th>关注</th>" + "<td>" + '<input type="text" name="user_concern" id="user_concern" value=' + userInfos[t].user_concern + '>' + "</td></tr>"
-                            + "<tr><td align='center' colspan='2'><input type='button' id='btn' value='关注我' class='div' onclick=" + change() + ">&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' class='us-saveBtn' value='保存'></td></tr>")
+                            + "<tr><td align='center' colspan='2'><input type='button' class='Attention' value='关注我'  onclick=" + changes() + ">&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' value='保存'></td></tr>")
 
 
                     }
@@ -40,32 +40,31 @@
 
             });
 
-            function change() {
+            function changes() {
                 $(document).ready(function () {
                     var onOff = true;
-                    var div = $(".div");
-                    div.click(function () {
-                        if (div.onOff) {
-                            div.val("关注我");
-                            div.css({"background": '#ccc'});
-                            div.onOff = false;
+                    var Attention = $(".Attention");
+                    Attention.click(function () {
+                        if (Attention.onOff) {
+                            Attention.val("关注我");
+                            Attention.css({"background": '#ccc'});
+                            Attention.onOff = false;
 
                             $.ajax({
-                                url: "userInfo/subAttention",
-                                data: {user_id: user_id},
+                                url: "userInfo/subAttention?user_id=1",
+                                // data: {user_id:user_id},
                                 type: "post",
                                 success: function (data) {
-                                    alert(data);
                                     alert("取消关注成功！");
                                 }
                             })
                         } else {
-                            div.css({"background": 'red'});
-                            div.val("已关注");
-                            div.onOff = true;
+                            Attention.css({"background": 'red'});
+                            Attention.val("已关注");
+                            Attention.onOff = true;
                             $.ajax({
-                                url: "userInfo/addAttention",
-                                data: {user_id: user_id},
+                                url: "userInfo/addAttention?user_id=1",
+                                // data: {user_id: user_id},
                                 type: "post",
                                 success: function (data) {
                                     alert("关注成功！");
@@ -84,16 +83,16 @@
 <body>
 <div style="position: absolute;width: 100%;height: 100%;z-index: -1;background-image: url('resource/img/updateUser.jpg')">
     <div align="center" style="margin-bottom: 20px"><h1>编辑个人资料</h1></div>
-    <div class="us-personalInfo">
-        <form action='/userInfo/updateUserInfo' method='post' id='uploadForm' enctype="multipart/form-data">
-            <table id="tables" border="1" align="center" cellspacing="0" cellpadding="0">
-            </table>
-        </form>
-    </div>
+    <form action='/userInfo/updateUserInfo' method="post" enctype="multipart/form-data">
+        <table id="tables" border="1" align="center" cellspacing="0" cellpadding="0">
+        </table>
+    </form>
 
 
     <div align="center" style="margin-top: 90px">
-        <div><a href="#">帮助中心</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">服务条款</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">隐私政策</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">问题反馈</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">关于我们</a></div>
+        <div><a href="#">帮助中心</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">服务条款</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                href="#">隐私政策</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">问题反馈</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                href="#">关于我们</a></div>
         <div>2019.11 xx软件（中国）有限公司版权所有 &nbsp;&nbsp; 粤ICP备05041751号-38</div>
     </div>
 </div>

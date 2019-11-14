@@ -3,24 +3,23 @@ package com.kp.controller;
 
 import com.kp.domain.UserInfo;
 import com.kp.service.UserService;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
+import static java.lang.System.out;
 
 
 @Controller
@@ -35,132 +34,97 @@ public class UserController {
 
     @RequestMapping("/selectById")
     @ResponseBody
-    public List<UserInfo> selectById(Integer user_id, HttpServletRequest req) throws UnsupportedEncodingException {
-        System.out.println("表现层：selectByName方法");
+    public List<UserInfo> selectById(Integer user_id, HttpServletRequest req) throws IOException {
+        out.println("表现层：selectByName方法");
 
         req.setCharacterEncoding("utf-8");
         user_id = Integer.valueOf(req.getParameter("user_id"));
 
+
+
         List<UserInfo> userInfos = userService.selectById(user_id);
+
+
         return userInfos;
 
 
     }
 
 
-    @RequestMapping("/updateUserInfo")
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
     @ResponseBody
-    public void updateUserInfo(UserInfo userInfo, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, FileUploadException {
-        System.out.println("表现层：updateUserInfo方法");
+    public void updateUserInfo(UserInfo userInfo, HttpServletRequest req, HttpServletResponse resp, @RequestParam("file") MultipartFile user_img) throws IOException {
+        out.println("表现层：updateUserInfo方法");
         req.setCharacterEncoding("utf-8");
 
-        //创建磁盘工厂对象
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        //获取上传对象
-        ServletFileUpload upload1 = new ServletFileUpload(factory);
-        //通过上传对象解析请求
-        List<FileItem> list = upload1.parseRequest(req);
 
-        //创建一个map集合，为普通文本导入value值做准备
-        Map<String, String> map = new HashMap<>();
-
-        //遍历集合
-        for (FileItem fileItem : list) {
-            //判断是否为文件
-            if (!fileItem.isFormField()) {
-                //如果是文件
-                //创建一个输入流
-                InputStream is = fileItem.getInputStream();
-
-                //项目部署目录新建一个上传文件夹
-                String path = req.getSession().getServletContext().getRealPath("/uploadFiles/");
-                File file = new File(path);
-
-                //目录不存在
-                if (!file.exists()) {
-                    //新建目录
-                    file.mkdirs();
-                }
+        String user_id = req.getParameter("user_id");
+        String user_name = req.getParameter("user_name");
+        String user_email = req.getParameter("user_email");
+        String user_sex = req.getParameter("user_sex");
+        String user_phone = req.getParameter("user_phone");
+        String user_ex = req.getParameter("user_ex");
+        String user_time = req.getParameter("user_time");
+        String user_show = req.getParameter("user_show");
+        String user_blog = req.getParameter("user_blog");
+        String user_fans = req.getParameter("user_fans");
+        String user_concern = req.getParameter("user_concern");
 
 
-                //重置文件名(随机字符串+该文件名拼接成新的文件名)
-                String fileName = UUID.randomUUID().toString() + "_" + fileItem.getName();
-                System.out.println("fileName" + fileName);
-                FileOutputStream fos = new FileOutputStream(fileName);
+        //上传位置
+        String path = req.getSession().getServletContext().getRealPath("/uploadFiles/");
 
-                //新文件所上传的路径
-                String uploadFile = path + File.separator + fileName;
 
-                System.out.println("新文件所在的路径：" + uploadFile);
+        File file = new File(path);
 
-                //将路径对象封装到UserInfo实体类中
-                userInfo.setUser_img(uploadFile);
-//
-                //文件流的读写
-                IOUtils.copy(is, fos);
 
-                //关闭资源
-                fos.close();
-                is.close();
-            } else {
-                String name = fileItem.getFieldName();
-                String value = fileItem.getString("utf-8");
-                map.put(name, value);
-
-                if("user_id".equals(name)) {
-                    map.put(name,value);
-                    userInfo.setUser_id(Integer.valueOf(value));
-                }else if ("user_name".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_name(value);
-                } else if ("user_email".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_email(value);
-                } else if ("user_sex".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_sex(value);
-                } else if ("user_phone".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_phone(value);
-                } else if ("user_ex".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_ex(value);
-                } else if ("user_time".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_time(value);
-                } else if ("user_show".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_show(value);
-                } else if ("user_blog".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_blog(value);
-                } else if ("user_fans".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_fans(Integer.valueOf(value));
-                } else if ("user_concern".equals(name)) {
-                    map.put(name, value);
-                    userInfo.setUser_concern(Integer.valueOf(value));
-                }
-            }
+        //判断路径是否存在
+        if (!file.exists()) {
+            file.mkdirs();
         }
 
-        if (map.size() > 0) {
-            userService.updateUserInfo(userInfo);
-            resp.sendRedirect("/view/User/updateUserInfoSuccess.html");
-            return;
-        } else {
-            resp.sendRedirect("/view/404.html");
-            return;
-        }
 
+        //获取上传文件的名称
+        String filename = user_img.getOriginalFilename();
+        out.println(filename);
+
+        //给文件重命名
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        //拼接起来组成新的文件名
+        filename = uuid + "_" + filename;
+
+        user_img.transferTo(new File(path, filename));
+
+        //封装对象
+        userInfo.setUser_img(filename);
+
+
+        userInfo.setUser_id(Integer.valueOf(user_id));
+        userInfo.setUser_name(user_name);
+        userInfo.setUser_email(user_email);
+        userInfo.setUser_sex(user_sex);
+        userInfo.setUser_phone(user_phone);
+        userInfo.setUser_ex(user_ex);
+        userInfo.setUser_time(user_time);
+        userInfo.setUser_show(user_show);
+        userInfo.setUser_blog(user_blog);
+        userInfo.setUser_fans(Integer.valueOf(user_fans));
+        userInfo.setUser_concern(Integer.valueOf(user_concern));
+
+        //调用service方法
+        userService.updateUserInfo(userInfo);
+
+        resp.sendRedirect("/view/User/updateUserInfoSuccess.html");
+
+        return;
     }
 
-
-    //关注和取消关注
-    @RequestMapping("/addAttention")
+    //关注和取消关注(关注量的增减）
+    @RequestMapping(path = "/addAttention", method = RequestMethod.PUT)
     @ResponseBody
     public void addAttention(UserInfo userInfo, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        System.out.println("表现层：addAttention方法");
+        out.println("表现层：addAttention方法");
 
         req.setCharacterEncoding("utf-8");
 
@@ -181,9 +145,9 @@ public class UserController {
 
     }
 
-    @RequestMapping("/subAttention")
+    @RequestMapping(path = "/subAttention", method = RequestMethod.PUT)
     public void subAttention(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println("表现层：subAttention方法");
+        out.println("表现层：subAttention方法");
 
         req.setCharacterEncoding("utf-8");
 
