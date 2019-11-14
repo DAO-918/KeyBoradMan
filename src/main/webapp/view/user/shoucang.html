@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            // $("#startID").prop("disabled",false);
+            $("#2").prop("disabled",true);
+            $("#1").click(function () {
+                $("#1").prop("disabled",true);
+                $("#2").prop("disabled",false);
+
+            });
+            $("#2").click(function () {
+                $("#1").prop("disabled",false);
+                $("#2").prop("disabled",true);
+
+            });
+        });
+
+
+
+
+
+
+    </script>
+    <title>Title</title>
+</head>
+<body>
+<form action="/UserCollection/save.do" method="post">
+    <input
+            id="1"
+            type="submit"
+            value="收藏"
+            style="width:50px;height:50px;font-size:11px"
+    >
+
+</form>
+<form action="/UserCollection/delete" method="post">
+    <input
+            id="2"
+            type="submit"
+            value="取消收藏"
+            style="width:50px;height:50px;font-size:11px"
+    >
+</form>
+</body>
+</html>
