@@ -45,4 +45,20 @@ public class ArticleTagServiceImpl implements ArticleTagService {
         return tagList;
     }
 
+
+    public List<ArticleTag> findArticle_tagAll() {
+        System.out.println("进入service层");
+        List<ArticleTag> article_tagAll = articleTagDao.findArticle_tagAll();
+        return article_tagAll;
+    }
+
+    @Override
+    public void saveArticleTag(ArticleTag article_tag) {
+        articleTagDao.saveArticleTag(article_tag);
+    }
+
+    @Override
+    public void deleteTag2(Integer articleTagId) {
+        articleTagDao.deleteTag2(articleTagId);
+    }
 }

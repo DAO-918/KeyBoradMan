@@ -14,4 +14,20 @@ public interface ArticleService {
 
     //后台获取文章、标签、类型、作者
     List<BackArticle> findBackAllArticle();
+
+    /**许炳海
+     * 删除文章(根据id删除)
+     */
+    void deleteId(Integer articleId);
+
+    /**
+     * 根据id修改文章
+     */
+    void updateArticle(Article article);
+
+    /**
+     * gen根据userid查询个人文章
+     * @param id
+     */
+    List<Article> findById(Integer id);
 }

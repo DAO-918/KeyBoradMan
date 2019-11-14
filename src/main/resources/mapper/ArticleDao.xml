@@ -5,11 +5,9 @@
         <id property="art_id" column="art_id"></id>
         <result property="art_user_id" column="art_user_id"></result>
         <result property="art_title" column="art_title"></result>
-        <result property="art_theme" column="art_theme"></result>
         <result property="art_tag_id" column="art_tag_id"></result>
         <result property="art_category_id" column="art_category_id"></result>
         <result property="art_content" column="art_content"></result>
-        <result property="art_img" column="art_img"></result>
         <result property="art_create_time" column="art_create_time"></result>
         <result property="art_com_num" column="art_com_num"></result>
         <result property="art_hot_num" column="art_hot_num"></result>
@@ -43,7 +41,7 @@
 
     <select id="findBackAllArticle" resultType="backarticle">
         select a.*,tag.tag_name,u.user_name,c.category_name from article a
-        left outer join article_tag tag on a.art_tag_id = tag.tag_id
+        left outer join  tag on a.art_tag_id = tag.tag_id
         left outer join user u on u.user_id=a.art_user_id
         left outer join category c on a.art_category_id=c.category_id
     </select>
@@ -51,4 +49,61 @@
     <select id="getTotalArticleConunt" resultType="java.lang.Integer">
         select count(*) from article
     </select>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from article where article_id =#{articleId}
+    </delete>
+
+
+    <update id="updateArticle" parameterType="article">
+        update article
+        <set>
+            <if test="art_user_id != null">art_user_id=#{art_user_id}</if>
+            <if test="art_title != null">art_title=#{art_title}</if>
+            <if test="art_tag_id != null">art_tag_id=#{art_tag_id}</if>
+            <if test="art_category_id != null">art_category_id=#{art_category_id}</if>
+            <if test="art_content != null">art_content=#{art_content}</if>
+            <if test="art_create_time != null">art_create_time=#{art_create_time}</if>
+            <if test="art_com_num != null">art_com_num=#{art_com_num}</if>
+            <if test="art_hot_num != null">art_hot_num=#{art_hot_num}</if>
+            <if test="art_like_num != null">art_like_num=#{art_like_num}</if>
+        </set>
+        where art_id=#{art_id}
+    </update>
+
+    <!--查询个人文章-->
+    <resultMap id="articleMapUser" type="article">
+        <id property="art_id" column="art_id"></id>
+        <result property="art_user_id" column="art_user_id"></result>
+        <result property="art_title" column="art_title"></result>
+        <result property="art_tag_id" column="art_tag_id"></result>
+        <result property="art_category_id" column="art_category_id"></result>
+        <result property="art_content" column="art_content"></result>
+        <result property="art_create_time" column="art_create_time"></result>
+        <result property="art_com_num" column="art_com_num"></result>
+        <result property="art_hot_num" column="art_hot_num"></result>
+        <result property="art_like_num" column="art_like_num"></result>
+        <association property="useres" javaType="user" column="user_id">
+            <id property="user_id" column="user_id"></id>
+            <result property="user_name" column="user_name"></result>
+            <result property="user_password" column="user_password"></result>
+            <result property="user_phone" column="user_phone"></result>
+            <result property="user_status" column="user_status"></result>
+        </association>
+    </resultMap>
+    <select id="findById" parameterType="java.lang.Integer" resultMap="articleMapUser"  resultType="article">
+        SELECT
+	    a.*,
+	    u.user_id
+        FROM
+	    article a
+	    LEFT OUTER JOIN USER u ON a.art_user_id = u.user_id
+        WHERE
+	    u.user_id = #{id}
+
+    </select>
+
+
+
 </mapper>

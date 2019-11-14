@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.kp.domain.Admin;
 import com.kp.domain.Msg;
 import com.kp.service.AdminService;
+import com.kp.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping()
 public class AdminController {
 
 
@@ -24,12 +25,15 @@ public class AdminController {
     private AdminService adminService;
 
 
+    @Autowired
+    private ArticleService articleService;
+
     /**
      * 查找所有
      * @param admin
      * @return
      */
-    @GetMapping("/findAll")
+    @GetMapping("/admin/findAll")
     public Msg findAll(Integer pageNo,Admin admin){
         PageHelper.startPage(pageNo,4);
         List<Admin> all = adminService.findAll(admin);
@@ -42,14 +46,14 @@ public class AdminController {
     /**
      * 查询数据
      */
-    @GetMapping("/findAdminCount")
+    @GetMapping("/admin/findAdminCount")
     public Msg findAdminCount(){
         int adminCount = adminService.findAdminCount();
         return Msg.sucess().add("num",adminCount);
     }
 
 
-    @PutMapping("/addAdmin")
+    @PutMapping("/admin/addAdmin")
     public Msg addAdmin(Admin admin){
         //if (admin==null){
         List<String> name = adminService.findName();
@@ -85,11 +89,17 @@ public class AdminController {
         return Msg.sucess().add("admin",admin);
     }
 
+    //？？？？？
+    @RequestMapping("/delete/{id}")
+    public void deleteId(@PathVariable("id") Integer articleId){
+        System.out.println("进行删除操作");
+        articleService.deleteId(articleId);
+    }
 
     /**
      * 删除管理员
      */
-    @PostMapping("/deleteAdmin")
+    @PostMapping("/admin/deleteAdmin")
     public Msg deleteAdmin(Integer uid){
         adminService.deleteAdmin(uid);
 
@@ -99,7 +109,7 @@ public class AdminController {
     private String code;
 
 
-    @PostMapping("/code")
+    @PostMapping("/admin/code")
     public Msg code(){
         code = "";
         StringBuffer sb = new StringBuffer();
@@ -114,7 +124,7 @@ public class AdminController {
     /**
      * 管理员管理登陆
      */
-    @PostMapping("/loginAdmin")
+    @PostMapping("/admin/loginAdmin")
     public Msg loginAdmin(HttpSession session,Admin admin, String codes)  {
 
         String admin_login_name = admin.getAdmin_login_name();
@@ -153,6 +163,6 @@ public class AdminController {
             return Msg.sucess().add("message",message);
         }
 
-    };
+    }
 
 }

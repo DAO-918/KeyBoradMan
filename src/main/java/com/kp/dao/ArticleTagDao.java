@@ -19,4 +19,21 @@ public interface ArticleTagDao {
     //后台获取所有标签数量
     int getTotalTagConunt();
 
+
+    /**
+     * 许炳海
+     * 获取列表
+     */
+    List<ArticleTag> findArticle_tagAll();
+
+    /**
+     * 添加标签
+     */
+    void saveArticleTag(ArticleTag article_tag);
+
+    /**
+     * 删除标签
+     */
+    void deleteTag2(Integer articleTagId);
+
 }

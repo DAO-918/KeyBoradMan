@@ -6,9 +6,20 @@ public class ArticleTag {
     private String tag_name;
     private String tag_content;//标签介绍
 
+//    一对一查询:关联类别表
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
-        return "ArticleTag{" +
+        return "Article_tag{" +
                 "tag_id=" + tag_id +
                 ", tag_cid=" + tag_cid +
                 ", tag_name='" + tag_name + '\'' +

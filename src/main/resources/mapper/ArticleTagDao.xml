@@ -32,4 +32,39 @@
     <select id="getTotalTagConunt" resultType="java.lang.Integer">
         select count(*) from article_tag
     </select>
+
+    <!--标签和类别两表查询-->
+    <resultMap id="articleTagMap" type="articletag">
+        <id property="tag_id" column="tag_id"></id>
+        <result property="tag_cid" column="tag_cid"></result>
+        <result property="tag_name" column="tag_name"></result>
+        <result property="tag_content" column="tag_content"></result>
+        <association property="category" javaType="category" column="category_id">
+            <id property="category_id" column="category_id"></id>
+            <result property="category_name" column="category_name"></result>
+            <result property="category_content" column="category_content"></result>
+        </association>
+    </resultMap>
+
+    <select id="findArticle_tagAll" resultType="articletag" resultMap="articleTagMap">
+        SELECT AT
+        .*,
+        ca.category_id
+        FROM
+        article_tag AT,
+        category ca
+        WHERE
+        AT.tag_cid = ca.category_id
+    </select>
+
+    <delete id="deleteTag2" parameterType="java.lang.Integer" >
+        delete from article_tag where tag_id=#{articleTagId}
+    </delete>
+
+    <insert id="saveArticleTag" parameterType="articletag">
+          insert into article_tag(tag_id,tag_name,tag_content)
+          values
+          (#{tag_id},#{tag_name},#{tag_content})
+    </insert>
+
 </mapper>

@@ -16,4 +16,19 @@ public interface ArticleTagService {
     public boolean findBackTagByNameCount(String tag_name);
     //后台获取所有标签及类型、类型说明、类型id
     public List<BackTag> findBackTag();
+
+
+    /**许炳海
+     * 查询所有标签
+     */
+    List<ArticleTag> findArticle_tagAll();
+
+    /**
+     * 添加标签
+     */
+    void saveArticleTag(ArticleTag article_tag);
+    /**
+     * 删除标签
+     */
+    void deleteTag2(Integer articleTagId);
 }

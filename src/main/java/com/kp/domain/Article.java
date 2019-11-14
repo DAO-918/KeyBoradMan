@@ -1,8 +1,9 @@
 package com.kp.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Article {
+public class Article implements Serializable {
     private Integer art_id;
     private Integer art_user_id;
     private String art_theme;
@@ -22,6 +23,17 @@ public class Article {
     //多对一关系，多篇文章对应一个作者
     private User user;
 
+    public User getUseres() {
+        return useres;
+    }
+
+    public void setUseres(User useres) {
+        this.useres = useres;
+    }
+
+    //    根据作者名字查询个人文章列表
+    private User useres;
+
     @Override
     public String toString() {
         return "Article{" +
@@ -39,6 +51,7 @@ public class Article {
                 ", art_like_num=" + art_like_num +
                 ", article_tag=" + articletag +
                 ", user=" + user +
+                ", useres=" + useres +
                 '}';
     }
 

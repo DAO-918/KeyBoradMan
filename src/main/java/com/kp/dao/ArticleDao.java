@@ -18,4 +18,26 @@ public interface ArticleDao {
 
     //后台统计文章
     int getTotalArticleConunt();
+
+
+    /**
+     * 许炳海
+     * 删除文章
+     */
+    void deleteById(Integer articleId);
+
+
+    /**
+     * 修改文章
+     */
+    Integer updateArticle(Article article);
+
+    /**
+     * 根据userid查询个人文章
+     */
+    List<Article> findById(Integer id);
+
+
+
+
 }
