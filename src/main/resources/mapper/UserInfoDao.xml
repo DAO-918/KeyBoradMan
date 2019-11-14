@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kp.dao.UserInfoDao">
+    <resultMap id="userInfoMap" type="userInfo2">
+        <id property="user_id" column="user_id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="user_email" column="user_email"/>
+        <result property="user_sex" column="user_sex"/>
+        <result property="user_phone" column="user_phone"/>
+        <result property="user_ex" column="user_ex"/>
+        <result property="user_time" column="user_time"/>
+        <result property="user_show" column="user_show"/>
+        <result property="user_blog" column="user_blog"/>
+        <result property="user_img" column="user_img"/>
+        <result property="user_fans" column="user_fans"/>
+        <result property="user_concern" column="user_concern"/>
+        <result property="articleCount" column="ac"/>
+        <association property="user" javaType="com.kp.domain.User">
+            <id property="user_id" column="user_id"/>
+            <result property="user_name" column="user_name"/>
+            <result property="user_password" column="user_password"/>
+            <result property="user_phone" column="user_phone"/>
+            <result property="user_status" column="user_status"/>
+        </association>
+    </resultMap>
+
+    <select id="findByCoundition" resultMap="userInfoMap" parameterType="userInfo2" >
+        select * from user_info
+        where 1 = 1
+        <if test="user_sex != null">
+            and user_sex = #{user_sex}
+        </if>
+        <if test="user_name !=null">
+            and user_name like concat('%',#{user_name},'%')
+        </if>
+        <if test="user_fans != null">
+            and user_fans > #{user_fans}
+        </if>
+    </select>
+
+    <select id="findUserMess" resultMap="userInfoMap" resultType="userInfo2">
+        select u.user_id,u.user_name,u.user_img,u.user_sex,u.user_fans,u.user_ex,u.user_concern,count(*) as ac,s.user_status
+        from article a ,user_info u,user s
+        where a.art_user_id = u.user_id and u.user_id = s.user_id
+        GROUP BY art_user_id
+    </select>
+
+
+    <select id="findUser" resultMap="userInfoMap" resultType="userInfo2" parameterType="userInfo2">
+          select u.user_id,u.user_name,u.user_img,u.user_sex,u.user_fans,u.user_ex,u.user_concern,count(*) as ac,s.user_status
+        from article a ,user_info u,user s
+        where a.art_user_id = u.user_id and u.user_id = s.user_id
+        <if test="user_name != null ">
+            and u.user_name like concat('%',#{user_name},'%')
+        </if>
+        <if test="user_sex != null and user_sex != ''">
+            and  u.user_sex = #{user_sex}
+        </if>
+        <if test="user_fans != null ">
+            and  u.user_fans > #{user_fans}
+        </if>
+        GROUP BY art_user_id
+    </select>
+
+
+    <select id="findAll" parameterType="int" resultType="userInfo2" resultMap="userInfoMap">
+        select * from user_info
+        where user_Id = #{user_id}
+    </select>
+</mapper>
