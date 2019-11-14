@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kp.dao.UserDao">
+    <resultMap id="userMap" type="user">
+        <id property="user_id" column="user_id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="user_password" column="user_password"/>
+        <result property="user_phone" column="user_phone"/>
+        <result property="user_status" column="user_status"/>
+    </resultMap>
+
 
     <select id="getTotalUserConunt" resultType="java.lang.Integer">
         select count(*) from user where user_status=1
     </select>
+
+    <!-- 禁用用户-->
+    <update id="stopUser" parameterType="int">
+       update user
+       set user_status = 0
+       where user_id = #{uid}
+    </update>
+
+
+    <!-- 启用用户-->
+    <update id="startUser" parameterType="int">
+        update user
+        set user_status = 1
+        where user_id = #{uid}
+    </update>
+
+    <!--更加用户id查找-->
+    <select id="findById" parameterType="int" resultType="user" resultMap="userMap">
+        select user_status
+        from user
+        where user_id = #{user_id}
+    </select>
+
+
 
 </mapper>
