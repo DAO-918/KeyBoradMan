@@ -4,15 +4,23 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kp.domain.*;
 import com.kp.service.ArticleService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ArticleController {
@@ -25,7 +33,7 @@ public class ArticleController {
         //这是一个分页查询
         //引入PageHelp分页插件
         //在查询之前只需要调用，传入页码，以及每页的大小
-        PageHelper.startPage(pageNo,1);//自动添加limit 0,8
+        PageHelper.startPage(pageNo,4);//自动添加limit 0,8
         //startPage后面紧跟的查询就是分页查询
         List<Article> allArticle = articleService.findAllArticle();
         //date类毫秒值转时间字符串
@@ -51,13 +59,13 @@ public class ArticleController {
     }
 
     @GetMapping("/articleByTarName")
-    public Msg listArticleBytagName(Integer pageNo,String tag_name) throws ParseException {
+    public Msg listArticeBytagName(Integer pageNo,@Param("tag_name")String tag_name,@Param("keyboard")String keyboard) throws ParseException {
         //这是一个分页查询
         //引入PageHelp分页插件
         //在查询之前只需要调用，传入页码，以及每页的大小
-        PageHelper.startPage(pageNo,1);//自动添加limit 0,8
+        PageHelper.startPage(pageNo,4);//自动添加limit 0,8
         //startPage后面紧跟的查询就是分页查询
-        List<Article> articleByTagName = articleService.findArticleByTagName(tag_name);
+        List<Article> articleByTagName = articleService.findArticleByTagName(tag_name,keyboard);
         //date类毫秒值转时间字符串
         Msg msg = new Msg();
         for (Article article : articleByTagName) {
@@ -113,5 +121,49 @@ public class ArticleController {
         greatArticle.setGa_art_id(art_id);
         greatArticle.setGa_user_id(user_id);
         return articleService.findGAStatus(greatArticle );
+    }
+
+    @PutMapping("/addArticle")
+    public void addArticle(HttpServletRequest req, HttpServletResponse resp,MultipartFile art_img, Integer art_user_id, String art_title, Integer art_tag_id, Integer art_category_id, String art_content) throws IOException {
+        Article article = new Article();
+        article.setArt_user_id(art_user_id);
+        article.setArt_title(art_title);
+        article.setArt_tag_id(art_tag_id);
+        article.setArt_category_id(art_category_id);
+        article.setArt_content(art_content);
+
+        //上传的位置
+        String realPath = req.getSession().getServletContext().getRealPath("/uploadFiles/");
+        //判断该路径是否存在
+        File file = new File(realPath);
+        if (!file.exists()){
+            file.mkdirs();
+        }
+        //获取上传文件的名称
+        String fileName = art_img.getOriginalFilename();
+        //把文件名设置成唯一值。UUID
+        String uuid = UUID.randomUUID().toString().replace("_", "");
+        fileName = uuid + "_" +fileName;
+        //上传文件
+        art_img.transferTo(new File(realPath,fileName));
+
+        String file_src = "uploadFiles/"+fileName;
+        article.setArt_img(file_src);
+
+        articleService.saveArticle(article);
+
+        resp.sendRedirect("/article/blog.html");
+    }
+
+    @GetMapping("/listArt")
+    public List<Article> listArticle(){
+        List<Article> articles = articleService.listArtTitle();
+        return articles;
+    }
+
+    @GetMapping("/searchArt")
+    public List<Article> searchArticle(){
+        List<Article> articles = articleService.searchArtTitle();
+        return articles;
     }
 }

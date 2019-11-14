@@ -65,7 +65,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findArticleByTagName(String tag_name) {
-        return articleDao.findArticleByTagName(tag_name);
+    public List<Article> findArticleByTagName(String tag_name,String keyboard) {
+        if (tag_name!=null){
+            return articleDao.findArticleByTagName(tag_name);
+        } else {
+            return articleDao.searchArticle(keyboard);
+        }
+
+    }
+
+    @Override
+    public void saveArticle(Article article) {
+        articleDao.saveArticle(article);
+    }
+
+    @Override
+    public List<Article> listArtTitle() {
+        List<Article> articles = articleDao.listArtTitle();
+        return articles;
+    }
+
+    @Override
+    public List<Article> searchArtTitle() {
+        List<Article> articles = articleDao.searchArtTitle();
+        return articles;
     }
 }

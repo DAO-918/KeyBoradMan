@@ -12,6 +12,7 @@
         <result property="art_com_num" column="art_com_num"></result>
         <result property="art_hot_num" column="art_hot_num"></result>
         <result property="art_like_num" column="art_like_num"></result>
+        <result property="art_img" column="art_img"></result>
         <!-- 一对一， 配置角色集合的映射 -->
         <association property="articleTag" column="art_tag_id" javaType="articletag">
             <id property="tag_id" column="tag_id"></id>
@@ -38,6 +39,19 @@
         select a.*,tag.tag_name,u.user_name from article a
         left outer join article_tag tag on a.art_tag_id = tag.tag_id
         left outer join user_info u on u.user_id=a.art_user_id
+
+    </select>
+
+    <select id="searchArticle" parameterType="java.lang.String" resultMap="articleMap">
+        select a.*,tag.tag_name,u.user_name from article a
+        left outer join article_tag tag on a.art_tag_id = tag.tag_id
+        left outer join user_info u on u.user_id=a.art_user_id
+        <where>
+            <if test="keyboard!=null">
+                or a.art_title like "%"#{keyboard}"%"
+                or a.art_content like "%"#{keyboard}"%"
+            </if>
+        </where>
     </select>
 
     <select id="findArticleById" parameterType="Integer" resultMap="articleMap">
@@ -95,5 +109,18 @@
         left outer join user_info u on u.user_id=a.art_user_id
         where art_tag_id =
         (select tag_id from article_tag where tag_name = #{tag_name})
+    </select>
+
+    <insert id="saveArticle" parameterType="article">
+        insert into article(art_user_id,art_title,art_tag_id,art_category_id,art_content,art_img)
+        values(#{art_user_id},#{art_title},#{art_tag_id},#{art_category_id},#{art_content},#{art_img})
+    </insert>
+
+    <select id="listArtTitle" resultType="article">
+        select * from article order by art_like_num desc limit 6
+    </select>
+
+    <select id="searchArtTitle" resultType="article">
+        select * from article order by art_hot_num desc limit 6
     </select>
 </mapper>

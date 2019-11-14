@@ -3537,7 +3537,7 @@ video {
 }
 
 .wrapper-content {
-    padding: 20px;
+    padding: 20px;width: 100%;
 }
 
 #page-wrapper {
@@ -7856,7 +7856,7 @@ body.skin-3 {
 }
 
 .navbar-header {
-    width: 60%;
+    width: 100%;
 }
 
 .bs-glyphicons {

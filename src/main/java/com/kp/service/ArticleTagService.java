@@ -1,21 +1,19 @@
-package com.kp.dao;
+package com.kp.service;
 
 import com.kp.domain.ArticleTag;
 import com.kp.domain.BackTag;
 
 import java.util.List;
 
-public interface ArticleTagDao {
+public interface ArticleTagService {
     //插入标签
-    public int insertTag(ArticleTag articleTag);
+    public boolean insertTag(ArticleTag articleTag);
     //删除标签
-    public int deleteTag(List<String> list);
+    public boolean deleteTag(List<String> list);
     //更新标签
-    public int updateTag(ArticleTag articleTag);
+    public boolean updateTag(ArticleTag articleTag);
     //后台获取所有标签及类型、类型说明、类型id
     public List<BackTag> findBackTag();
-    //后台获取所有标签数量
-    int getTotalTagConunt();
 
     //查询所有的标签
     List<ArticleTag> listArticleTag();

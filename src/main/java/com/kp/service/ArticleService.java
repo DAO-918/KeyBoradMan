@@ -18,5 +18,12 @@ public interface ArticleService {
     GreatArticle findGAStatus(GreatArticle greatArticle);
 
     //根据标签名获取文章列表
-    List<Article> findArticleByTagName(String tag_name);
+    List<Article> findArticleByTagName(String tag_name,String keyboard);
+
+    //增加一篇文章
+    void saveArticle(Article article);
+
+    List<Article> listArtTitle();
+
+    List<Article> searchArtTitle();
 }

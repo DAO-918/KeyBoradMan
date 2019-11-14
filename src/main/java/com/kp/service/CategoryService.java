@@ -1,27 +1,23 @@
-package com.kp.dao;
+package com.kp.service;
 
 import com.kp.domain.ArticleTag;
 import com.kp.domain.Category;
 
 import java.util.List;
 
-public interface CategoryDao {
+public interface CategoryService {
     //插入标签
-    public int insertCategory(Category category);
+    public boolean insertCategory(Category category);
     //删除标签
-    public int deleteCategory(List<String> list);
+    public boolean deleteCategory(List<String> list);
     //更新标签
-    public int updateCategory(Category category);
+    public boolean updateCategory(Category category);
     //后台查找类型、文章数量
-    //public
+    public List<Category> findBackCategory();
     //查找所有类型
     public List<Category> findCategory();
-
-    //后台统计类型数量
-    int getTotalCategoryConunt();
 
     List<ArticleTag> searchCategory(Category category);
 
     List<Category> search();
-
 }

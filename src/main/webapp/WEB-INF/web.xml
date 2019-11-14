@@ -26,6 +26,18 @@
       <param-value>UTF-8</param-value>
     </init-param>
   </filter>
+
+  <filter>
+    <filter-name>MultipartFilter</filter-name>
+    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+    <init-param>
+      <param-name>multipartResolverBeanName</param-name>
+      <!--对应文件上传解析器的id -->
+      <param-value>multipartResolver</param-value>
+    </init-param>
+  </filter>
+
+
   <!-- 使用REST风格的URI，将页面普通的post请求转为指定的delete或者put请求-->
   <filter>
     <filter-name>HiddenHttpMethodFilter</filter-name>
@@ -36,6 +48,12 @@
     <filter-name>characterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>MultipartFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 
   <filter-mapping>
     <filter-name>HiddenHttpMethodFilter</filter-name>

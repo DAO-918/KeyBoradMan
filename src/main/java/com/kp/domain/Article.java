@@ -26,22 +26,6 @@ public class Article {
     //一对多关系，一篇文章下路有多个评论
     private List<Comment> commentList;
 
-    public String getArt_theme() {
-        return art_theme;
-    }
-
-    public void setArt_theme(String art_theme) {
-        this.art_theme = art_theme;
-    }
-
-    public String getArt_img() {
-        return art_img;
-    }
-
-    public void setArt_img(String art_img) {
-        this.art_img = art_img;
-    }
-
     public Integer getArt_id() {
         return art_id;
     }
@@ -56,6 +40,14 @@ public class Article {
 
     public void setArt_user_id(Integer art_user_id) {
         this.art_user_id = art_user_id;
+    }
+
+    public String getArt_theme() {
+        return art_theme;
+    }
+
+    public void setArt_theme(String art_theme) {
+        this.art_theme = art_theme;
     }
 
     public String getArt_title() {
@@ -88,6 +80,14 @@ public class Article {
 
     public void setArt_content(String art_content) {
         this.art_content = art_content;
+    }
+
+    public String getArt_img() {
+        return art_img;
+    }
+
+    public void setArt_img(String art_img) {
+        this.art_img = art_img;
     }
 
     public Date getArt_create_time() {

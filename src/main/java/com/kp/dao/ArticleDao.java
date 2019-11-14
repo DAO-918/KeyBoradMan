@@ -4,6 +4,7 @@ import com.kp.domain.Article;
 import com.kp.domain.Comment;
 import com.kp.domain.CommentVo;
 import com.kp.domain.GreatArticle;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public interface ArticleDao {
 
     //获取所有文章和文章所属标签、作者
     List<Article> findAllArticle();
+
+    //主页搜索文章
+    List<Article> searchArticle(@Param("keyboard") String keyboard);
 
     //根据文章id获取文章信息
     Article findArticleById(Integer art_id);
@@ -36,6 +40,15 @@ public interface ArticleDao {
     //更新啊评论点赞表点赞标志
     void updateGreatArticle(GreatArticle greatArticle1);
 
-    ////根据标签名获取文章列表
+    //根据标签名获取文章列表
     List<Article> findArticleByTagName(String tag_name);
+
+    //增加一篇文章
+    void saveArticle(Article article);
+
+    /*根据点赞数来排序查询文章标题*/
+    List<Article> listArtTitle();
+
+    /*根据阅读量来排序查询文章标题*/
+    List<Article> searchArtTitle();
 }

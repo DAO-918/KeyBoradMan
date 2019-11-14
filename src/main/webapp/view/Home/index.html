@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="../../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/kpm.css" rel="stylesheet">
+    <script src="../../js/jquery-1.11.0.min.js"></script>
+    <script src="../../js/test.js"></script>
+    <script src="../../js/test2.js"></script>
+    <script src="../../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/plugins/markdown/bootstrap-markdown.min.css"/>
+
+    <!-- 全局js -->
+    <script src="../../js/jquery.min.js?v=2.1.4"></script>
+    <script src="../../js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="../../js/content.js?v=1.0.0"></script>
+    <script type="text/javascript" src="../../js/blog.js"></script>
+    <script src="../../js/getUrlParam.js"></script>
+
+    <!-- simditor -->
+    <script type="text/javascript" src="../../js/plugins/markdown/markdown.js"></script>
+    <script type="text/javascript" src="../../js/plugins/markdown/to-markdown.js"></script>
+    <script type="text/javascript" src="../../js/plugins/markdown/bootstrap-markdown.js"></script>
+    <script type="text/javascript" src="../../js/plugins/markdown/bootstrap-markdown.zh.js"></script>
+
+    <script>
+
+        //首页搜索功能
+        function search(bt){
+            //显示第一页
+            var keyboard = $(bt).prev().val();
+            to_page(1);
+            function to_page(pageNo) {
+                $.ajax({
+                    url: "/articleByTarName",
+                    data: "keyboard=" + keyboard + "&pageNo=" + pageNo,
+                    type: "get",
+                    success: function (result) {
+                        //1.解析并显示文章
+                        build_article_table(result);
+                        //2.解析并显示分页信息
+                        build_page_info(result);
+                        //3.解析并显示分页条数据
+                        build_page_nav(result);
+                    }
+                })
+            }
+
+            var totalRecord, currentPage;
+
+            /**
+             * 1.实现文章展示
+             * @param pn
+             */
+            //解析并显示文章
+            function build_article_table(result) {
+                //清空table表格
+                $("#article_div").empty();
+                var articleList = result.extend.pageInfo.list;
+                $.each(articleList, function (index, item) {
+
+                    var str = "    <div class=\"col-lg-12\">\n" +
+                        "            <div class=\"ibox\" >\n" +
+                        "                <div class=\"ibox-content\">\n" +
+                        "                    <a href=\"/article/article.html?art_id=" + item.art_id + "\" class=\"btn-link\">\n" +
+                        "                        <h2>\n" + item.art_title +
+                        "                        </h2>\n" +
+                        "                    </a>\n" +
+                        "                    <div class=\"small m-b-xs\">\n" +
+                        "                        <strong>" + item.user.user_name + "</strong> <span class=\"text-muted\"><i class=\"fa fa-clock-o\"></i>" + result.time + "</span>\n" +
+                        "                    </div>\n" +
+                        "                    <p class=\"art_content\">\n" + item.art_content +
+                        "                    </p>\n" +
+                        "                    <div class=\"row\">\n" +
+                        "                        <div class=\"col-md-6\">\n" +
+                        "                            <h5>标签：</h5>\n" +
+                        "                            <button class=\"btn btn-primary btn-xs\" type=\"button\">" + item.articleTag.tag_name + "</button>\n" +
+                        "                            <!--<button class=\"btn btn-white btn-xs\" type=\"button\">速比涛</button>-->\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-6\">\n" +
+                        "                            <div class=\"small text-right\">\n" +
+                        "                                <h5>状态：</h5>\n" +
+                        "                                <div> <i class=\"fa fa-comments-o\"> </i>" + item.art_com_num + "&nbsp;&nbsp;评论 </div>\n" +
+                        "                                <div> <i class=\"fa fa-eye\"> </i>" + item.art_hot_num + "&nbsp;&nbsp;浏览</div>\n" +
+                        "                                <div> <i class=\"glyphicon glyphicon-thumbs-up\"> </i>" + item.art_like_num + "&nbsp;&nbsp;点赞</div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>";
+                    $("#article_div").append(str);
+                })
+            }
+            //解析显示分页信息
+            function build_page_info(result) {
+                $("#page_info_area").empty();
+                $("#page_info_area").append("当前" + result.extend.pageInfo.pageNum + "页,总共" + result.extend.pageInfo.pages +
+                    "页，总共" + result.extend.pageInfo.total + "条记录");
+                totalRecord = result.extend.pageInfo.total;
+                currentPage = result.extend.pageInfo.pageNum;
+            }
+            //解析显示分页导航条
+            function build_page_nav(result) {
+                $("#page_nav_area").empty();
+                var ul = $("<ul></ul>").addClass("pagination");
+                var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+                var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+                var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+                var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+                //如果没有前一页，前一页和首页就不能点
+                if (result.extend.pageInfo.hasPreviousPage == false) {
+                    firstPageLi.addClass("disabled");
+                    prePageLi.addClass("disabled");
+                } else {
+                    //首页
+                    firstPageLi.click(function () {
+                        to_page(1);
+                    });
+                    prePageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum - 1);
+                    });
+                }
+                if (result.extend.pageInfo.hasNextPage == false) {
+                    nextPageLi.addClass("disabled");
+                    lastPageLi.addClass("disabled");
+                } else {
+                    //构建点击事件
+
+                    nextPageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum + 1);
+                    });
+                    lastPageLi.click(function () {
+                        to_page(result.extend.pageInfo.lastPage);
+                    })
+                }
+                //添加首页和前一页
+                ul.append(firstPageLi).append(prePageLi);
+                //遍历添加页码
+                $.each(result.extend.pageInfo.navigatepageNums, function (index, item) {
+                    var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+                    //如果是当前选中页面，添加active标识
+                    if (result.extend.pageInfo.pageNum == item) {
+                        numLi.addClass("active");
+                    }
+                    //给每个页码添加点击就跳转
+                    numLi.click(function () {
+                        to_page(item);
+                    });
+                    ul.append(numLi);
+                });
+                //添加下一页和末页
+                ul.append(nextPageLi).append(lastPageLi);
+                var navEle = $("<nav></nav>").append(ul);
+                navEle.appendTo("#page_nav_area");
+
+
+            }
+
+        }
+        $(function () {
+            addCategory();
+            addArticle_tag();
+            var tag_name = UrlParam.paramValues("tag_name");
+
+            if (tag_name != null) {
+                //显示第一页
+                to_page(1);
+
+                function to_page(pageNo) {
+                    $.ajax({
+                        url: "/articleByTarName",
+                        data: "tag_name=" + tag_name + "&pageNo=" + pageNo,
+                        type: "get",
+                        success: function (result) {
+                            //1.解析并显示文章
+                            build_article_table(result);
+                            //2.解析并显示分页信息
+                            build_page_info(result);
+                            //3.解析并显示分页条数据
+                            build_page_nav(result);
+                        }
+                    })
+                }
+            } else {
+                //显示第一页
+                to_page(1);
+
+                //显示全部文章
+                function to_page(pageNo) {
+                    $.ajax({
+                        url: "/article",
+                        data: "pageNo=" + pageNo,
+                        type: "GET",
+                        success: function (result) {
+                            //1.解析并显示文章
+                            build_article_table(result);
+                            //2.解析并显示分页信息
+                            build_page_info(result);
+                            //3.解析并显示分页条数据
+                            build_page_nav(result);
+                        }
+                    })
+                }
+            }
+
+            var totalRecord, currentPage;
+
+            /**
+             * 1.实现文章展示
+             * @param pn
+             */
+
+            //解析并显示文章
+            function build_article_table(result) {
+                //清空table表格
+                $("#article_div").empty();
+                var articleList = result.extend.pageInfo.list;
+                $.each(articleList, function (index, item) {
+
+                    var str = "    <div class=\"col-lg-12\">\n" +
+                        "            <div class=\"ibox\" >\n" +
+                        "                <div class=\"ibox-content\">\n" +
+                        "                    <a href=\"/article/article.html?art_id=" + item.art_id + "\" class=\"btn-link\">\n" +
+                        "                        <h2>\n" + item.art_title +
+                        "                        </h2>\n" +
+                        "                    </a>\n" +
+                        "                    <div class=\"small m-b-xs\">\n" +
+                        "                        <strong>" + item.user.user_name + "</strong> <span class=\"text-muted\"><i class=\"fa fa-clock-o\"></i>" + result.time + "</span>\n" +
+                        "                    </div>\n" +
+                        "                    <p class=\"art_content\">\n" + item.art_content +
+                        "                    </p>\n" +
+                        "                    <div class=\"row\">\n" +
+                        "                        <div class=\"col-md-6\">\n" +
+                        "                            <h5>标签：</h5>\n" +
+                        "                            <button class=\"btn btn-primary btn-xs\" type=\"button\">" + item.articleTag.tag_name + "</button>\n" +
+                        "                            <!--<button class=\"btn btn-white btn-xs\" type=\"button\">速比涛</button>-->\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-6\">\n" +
+                        "                            <div class=\"small text-right\">\n" +
+                        "                                <h5>状态：</h5>\n" +
+                        "                                <div> <i class=\"fa fa-comments-o\"> </i>" + item.art_com_num + "&nbsp;&nbsp;评论 </div>\n" +
+                        "                                <div> <i class=\"fa fa-eye\"> </i>" + item.art_hot_num + "&nbsp;&nbsp;浏览</div>\n" +
+                        "                                <div> <i class=\"glyphicon glyphicon-thumbs-up\"> </i>" + item.art_like_num + "&nbsp;&nbsp;点赞</div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </div>";
+                    $("#article_div").append(str);
+                })
+            }
+
+            //解析显示分页信息
+            function build_page_info(result) {
+                $("#page_info_area").empty();
+                $("#page_info_area").append("当前" + result.extend.pageInfo.pageNum + "页,总共" + result.extend.pageInfo.pages +
+                    "页，总共" + result.extend.pageInfo.total + "条记录");
+                totalRecord = result.extend.pageInfo.total;
+                currentPage = result.extend.pageInfo.pageNum;
+            }
+
+            //解析显示分页导航条
+            function build_page_nav(result) {
+                $("#page_nav_area").empty();
+                var ul = $("<ul></ul>").addClass("pagination");
+                var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+                var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+                var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+                var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+                //如果没有前一页，前一页和首页就不能点
+                if (result.extend.pageInfo.hasPreviousPage == false) {
+                    firstPageLi.addClass("disabled");
+                    prePageLi.addClass("disabled");
+                } else {
+                    //首页
+                    firstPageLi.click(function () {
+                        to_page(1);
+                    });
+                    prePageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum - 1);
+                    });
+                }
+                if (result.extend.pageInfo.hasNextPage == false) {
+                    nextPageLi.addClass("disabled");
+                    lastPageLi.addClass("disabled");
+                } else {
+                    //构建点击事件
+
+                    nextPageLi.click(function () {
+                        to_page(result.extend.pageInfo.pageNum + 1);
+                    });
+                    lastPageLi.click(function () {
+                        to_page(result.extend.pageInfo.lastPage);
+                    })
+                }
+                //添加首页和前一页
+                ul.append(firstPageLi).append(prePageLi);
+                //遍历添加页码
+                $.each(result.extend.pageInfo.navigatepageNums, function (index, item) {
+                    var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+                    //如果是当前选中页面，添加active标识
+                    if (result.extend.pageInfo.pageNum == item) {
+                        numLi.addClass("active");
+                    }
+                    //给每个页码添加点击就跳转
+                    numLi.click(function () {
+                        to_page(item);
+                    });
+                    ul.append(numLi);
+                });
+                //添加下一页和末页
+                ul.append(nextPageLi).append(lastPageLi);
+                var navEle = $("<nav></nav>").append(ul);
+                navEle.appendTo("#page_nav_area");
+
+
+            }
+
+        })
+
+
+
+
+    </script>
+    <style>
+        .art_content {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body>
+<!--标题栏div开始-->
+<div class="head_box">
+    <div class="header">
+        <div class="header_logo" >
+            <h2>解决程序员掉发烦恼</h2>
+        </div>
+        <div class="header_nav">
+            <ul class="clearfix">
+                <li><a href="#">个人中心</a></li>
+                <li class="have_second"><a href="#">我要分享</a>
+
+                    <ul class="nav_second">
+                        <i></i>
+                        <li><a href="#">解决bug分享</a></li>
+                        <li><a href="#">学习分享</a></li>
+                    </ul>
+                </li>
+                <li class="have_second">
+                    <a href="#">分类</a>
+                    <ul class="nav_second">
+                        <i></i>
+                        <li><a href="#">TypeMismatchException</a></li>
+                        <li><a href="#">SimpleMappingExceptionResolver</a></li>
+                        <li><a href="#">ResponseStatusExceptionResolver</a></li>
+                        <li><a href="#">DefaultHandlerExceptionResolver</a></li>
+                        <li><a href="#">Nullpointerexception</a></li>
+                        <li><a href="#">Arrayindexoutofboundsexception</a></li>
+                        <li><a href="#">Classnotfoundexception</a></li>
+                        <li><a href="#">ExceptionHandlerExceptionResolver</a></li>
+                        <li><a href="#">AbstractHandlerMethodExceptionResolver</a></li>
+                        <li><a href="#">AbstractHandlerExceptionResolver</a></li>
+                        <li><a href="#">HandlerExceptionResolver</a></li>
+                        <li><a href="#">HandlerExceptionResolverComposite</a></li>
+                        <li><a href="#">NoClassDefFoundError</a></li>
+                        <li><a href="#">HttpMessageNotReadableException</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">我的博文</a></li>
+                <li><a href="#">关于我们团队</a></li>
+            </ul>
+        </div>
+        <div class="header_search">
+            <a href="#" class="header_search_btn">
+                <img src="../../images/kbp2.png">
+                <i></i>
+            </a>
+        </div>
+
+        <div class="header_nav_small_btn">
+            <span class="small_btn"></span>
+        </div>
+
+    </div>
+</div>
+<!--标题栏div结束-->
+<div class="nav_hidden_zhanwei"></div>
+<!--搜索栏div-->
+<div class="search_box">
+    <div class="search">
+        <div name="searchform" class="search_form" target="_blank">
+            <input type="text" class="search_text" name="keyboard" placeholder="输入关键字点击搜索">
+            <button class="search_btn" onclick="search(this)" id="bt_search">搜索一下</button>
+        </div>
+    </div>
+</div>
+<!--搜索栏div end-->
+<!--图片横幅-->
+<div class="banner_box"></div>
+<!--分割行-->
+<div style="height: 30px;width: 100%; background-color: #efefef; border: 0px;"></div>
+<!--分类的导航栏div-->
+<nav class="navbar navbar-default">
+    <div class="navigation">
+        <div class="navigation_type navbar-header">
+            <ul class="nav navbar-nav" id="nav_u">
+                <li class="navbar-brand">bug类型</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--标签-->
+<div class="label_tag" id="label">
+    <ul id="label_u"></ul>
+</div>
+
+<!--嵌套所有的文章总div-->
+<div class="article_box clearfix">
+    <!--嵌套正文部分的div-->
+    <div class="left">
+
+        <!--正文div-->
+        <div class="article_box_one">
+            <div class="index_article_title clearfix">
+                <h3>bug攻略</h3>
+                <div id="toolbar" align="right">
+                    <input type="button" value="编写博客" id="addBtn" data-toggle="modal" data-target="#addArticleModal"
+                           class="btn btn-primary">
+                </div>
+            </div>
+            <ul class="index_article">
+                <li class="clearfix article_list">
+
+                    <div class="wrapper wrapper-content  animated fadeInRight blog">
+                        <div class="row" id="article_div">
+
+                        </div>
+
+                        <!--显示分页信息 -->
+                        <div class="row">
+                            <!--分页文字信息 -->
+                            <div class="col-md-6 col-sm-6" id="page_info_area">
+                                当前第页，总共页，总共条记录
+                            </div>
+                            <!--分页导航条信息 -->
+                            <div class="col-md-6 col-sm-6" id="page_nav_area">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- 新增的模态框 -->
+                    <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document" style="width: 800px">
+                            <div class="modal-content" style="margin-top: 1px;padding-top: 10px">
+                                <div class="modal-body" style="margin-top: 1px;padding-top: 1px">
+                                    <button class="close" data-dismiss="modal">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-title" style="height: 20px">
+                                    <h1 class="text-center">编写文章</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addTagForm" class="form-horizontal" action="/addArticle" enctype="multipart/form-data"
+                                          method="post">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"></label>
+                                            <div class="col-sm-7">
+                                                <input type="hidden" name="_method" value="PUT">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">文章标题</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" name="art_title" class="form-control"
+                                                       placeholder="请填写标签名称"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">上传图片</label>
+                                            <div class="col-sm-7">
+                                                <input type="file" name="art_img"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group" style="margin-left: 25px">
+                                            <!--                        <label class="col-sm-2 control-label">文章正文</label>-->
+                                            <div class="col-sm-10 control-label">
+                                                <div class="wrapper wrapper-content">
+                                                    <div class="row">
+                                                        <div class="ibox float-e-margins">
+                                                            <div class="ibox-title">
+                                                                <h5>Markdown文本编辑器</h5>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <textarea name="art_content" data-provide="markdown" rows="10"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">文章标签</label>
+                                            <div class="col-sm-7">
+                                                <select type="text" name="art_tag_id" class="form-control" id="add_input4"
+                                                        placeholder="文章类别">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="add_input5" class="col-sm-2 control-label">文章类别</label>
+                                            <div class="col-sm-7">
+                                                <select type="text" name="art_category_id" class="form-control" id="add_input5"
+                                                        placeholder="文章类别">
+
+                                                </select>
+                                            </div>
+                                            <label id="error3" for="add_input5" class="col-sm-3 control-label"></label>
+                                        </div>
+                                        <!--拿不到当前登录用户id，暂时设置为2-->
+                                        <input type="hidden" name="art_user_id" value="2">
+                                        <div class="form-group" style="margin-left: 570px;margin-top: 30px">
+                                            <input id="conf_add" class="btn btn-primary" type="submit">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+
+        </div>
+        <!--正文div end-->
+        <!--学习笔记-->
+<!--        <div class="article_box_two">
+            <div class="index_article_title clearfix">
+                <h3>学习笔记</h3>
+                <a href="#">更多&gt;</a>
+            </div>
+            <div class="article_btn">
+
+                <div class="article_btn_nav">
+                    <ul>
+                        <li>css笔记</li>
+                        <li>js笔记</li>
+                        <li>jquery笔记</li>
+                    </ul>
+                </div>
+
+                <div class="article_btn_box">
+                    <img src="">
+                    <div class="article_btn_box_item clearfix">
+
+                        <ul>
+                            <li><i></i><a href="www." >学习笔记的标题1</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#" >学习笔记的标题1</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#" >学习笔记的标题1</a>
+                                <p>内容</p></li>
+                        </ul>
+                    </div>
+
+                    <div class="article_btn_box_item clearfix">
+                        <ul>
+                            <li><i></i><a href="#">学习笔记的标题2</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#">学习笔记的标题2</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#">学习笔记的标题2</a>
+                                <p>内容</p></li>
+                        </ul>
+                    </div>
+                    <div class="article_btn_box_item clearfix">
+
+                        <ul>
+                            <li><i></i><a href="#">学习笔记的标题3</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#">学习笔记的标题3</a>
+                                <p>内容</p></li>
+                            <li><i></i><a href="#">学习笔记的标题3</a>
+                                <p>内容</p></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>-->
+    </div>
+    <!--嵌套个人、猜你喜欢、热门标签的div-->
+    <div class="right">
+        <!--个人信息-->
+        <div class="self_info right_box">
+            <img src="../../images/kbp6.jpg" height="300px">
+            <div class="self_info_text">
+                <h3>个人用户中心</h3>
+                <div>
+                    <p>以彼之长，增长自身</p>
+                    <p>有匪君子，如切如磋，如琢如磨。</p>
+                    <p>天将降大任于斯人也，必先苦其心志、磨其胫骨、饿其体肤</p>
+                </div>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+        <!--个人信息结束-->
+        <div class="right_box like" id="article">
+            <h3>精品文章</h3>
+            <div>
+                <ul id="article_title_u">
+                </ul>
+            </div>
+        </div>
+        <div class="right_box tally">
+            <h3>店长呕血推荐</h3>
+            <div>
+                <ul id="art_title">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer_box">
+    <div class="footers clearfix">
+        <div class="footer_text">
+            <p><i>站点声明：</i></p>
+            <p>1、本站创建的目的以学习交流为基础，记录日常生活中遇到的事物。</p>
+            <p>2、本站中所有分享的模板只供个人学习研究使用，未经允许不得用于任何商业目的。</p>
+            <p>3、本站所有文章均可转载，请注明出处，欢迎大家看到喜欢的文章帮忙转发点赞。举报意见邮箱：446157433@qq.com</p>
+            <p>Copyright © 2014-2019 大青牛爱穿山甲 保留所有版权</p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function listTag(obj){
+        var category_name= $(obj).html();
+        var label = $("#label");
+        $("#label>div").remove();
+        $("#label_u>li").remove();
+        label.prepend("<div class='label_tag_h'><h3>" + category_name + "</h3></div>");
+        $.ajax({
+            url:"/category/list",
+            data:"category_name="+category_name,
+            success:function (data) {
+                for (var i in data) {
+                    $("#label_u").append("<li><a class=\"label label-default\" href=\"index.html?tag_name="+data[i].tag_name+"\">" + data[i].tag_name + "</a></li>")
+                }
+            }
+
+        })
+
+    }
+    $(function () {
+            $.ajax({
+                url: "/category/search",
+                type: "get",
+                success: function (date) {
+                    for (var i = 0; i < date.length; i++) {
+                        $("#nav_u").append("<li class=\"arr\"><a onclick='listTag(this)'>" + date[i].category_name + "</a></li>");
+                    }
+                }
+            });
+
+            $.ajax({
+                url:"/listArt",
+                type:"get",
+                success:function (data) {
+                    for (var i in data) {
+                        $("#article_title_u").append("<li><a href=\"/article/article.html?art_id=" + data[i].art_id + "\">"+data[i].art_title+"</a></li>");
+                    }
+                }
+            });
+
+        $.ajax({
+            url:"/searchArt",
+            type:"get",
+            success:function (data) {
+                for (var i in data) {
+                    $("#art_title").append("<li><a href=\"/article/article.html?art_id=" + data[i].art_id + "\">"+data[i].art_title+"</a></li>");
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+</body>
+</html>

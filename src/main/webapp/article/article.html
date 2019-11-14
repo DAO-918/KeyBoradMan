@@ -86,6 +86,7 @@
                     $("#art_content").html(result.art_content);
                     $("#praise-txt").html(result.art_like_num);
                     $("#art_id_hidden").val(result.art_id);
+                    $("#art_img").html("<img align='center' src=\"http://localhost:8080/"+result.art_img+"\" style='width: 500px'>");
                 }
             })
 
@@ -291,8 +292,13 @@
                         <h1 id="art_title">
                         </h1>
                     </div>
-                    <p id="art_content">
-                    </p>
+                    <div >
+                        <p id="art_content" ></p>
+                    </div>
+                    <div align="center">
+                        <p id="art_img">
+                        </p>
+                    </div>
                     <div class="small text-center">
                         <!--                        文章点赞-->
                         <div class="praise">
