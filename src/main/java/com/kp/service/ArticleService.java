@@ -23,4 +23,9 @@ public interface ArticleService {
      * @param id
      */
     List<Article> findById(Integer id);
+
+    /**
+     * 模糊查询
+     */
+    List<Article> findByArticleList(Article article);
 }

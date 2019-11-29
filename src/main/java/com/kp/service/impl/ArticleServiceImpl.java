@@ -40,4 +40,11 @@ public class ArticleServiceImpl implements ArticleService {
         System.out.println("555");
       return  articleDao.findById(id);
     }
+
+    @Override
+    public List<Article> findByArticleList(Article article) {
+        System.out.println("模糊功能");
+        return articleDao.findByArticleList(article);
+
+    }
 }

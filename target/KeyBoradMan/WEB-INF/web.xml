@@ -1,0 +1,68 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <!--classpath:到当前项目的类路径找响应的文件  部署后的WEB-INF的classes文件夹-->
+    <!--classpath:*去当前项目的类路径找相应的文件,也会去相应的jar下去找相应的文件-->
+    <!--spring实现的监听器会完成建立applicationContext.xml的容器-->
+    <param-value>classpath:applicationContext.xml</param-value>
+    <!--使用逗号分隔开多个xml文件名-->
+    <!--<param-value>classpath:applicationContext.xml,applicationContext-dao.xml</param-value>-->
+    <!--可以读取前缀为applicationContext-的xml文件-->
+    <!--<param-value>classpath:applicationContext-*.xml</param-value>-->
+  </context-param>
+
+  <!--解决中文乱码的过滤器-->
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <!-- 使用REST风格的URI，将页面普通的post请求转为指定的delete或者put请求-->
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--配置Spring的监听器，默认只加载目录下的applicationContext.xml配置文件-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!--配置前端控制器:配置dispatcherServlet，SpringMVC的控制中心-->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!--加载springmvc.xml配置文件-->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+    <!--启动服务器，创建该servlet-->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+    <!-- <url-pattern>*.do</url-pattern>-->
+  </servlet-mapping>
+
+</web-app>

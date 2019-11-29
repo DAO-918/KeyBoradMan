@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kp.dao.ArticleTagDao">
+    <!--标签和类别两表查询-->
+    <resultMap id="articleTagMap" type="article_tag">
+        <id property="tag_id" column="tag_id"></id>
+        <result property="tag_cid" column="tag_cid"></result>
+        <result property="tag_name" column="tag_name"></result>
+        <result property="tag_content" column="tag_content"></result>
+        <association property="category" javaType="category" column="category_id">
+            <id property="category_id" column="category_id"></id>
+            <result property="category_name" column="category_name"></result>
+            <result property="category_content" column="category_content"></result>
+        </association>
+    </resultMap>
+    <select id="findArticle_tagAll" resultType="article_tag" resultMap="articleTagMap">
+        SELECT AT
+        .*,
+        ca.category_id
+        FROM
+        article_tag AT,
+        category ca
+        WHERE
+        AT.tag_cid = ca.category_id
+    </select>
+
+    <update id="deleteTag" parameterType="java.lang.Integer">
+        delete from article_tag where tag_id=#{articleTagId,jdbcType=INTEGER}
+    </update>
+
+    <insert id="saveArticleTag" parameterType="article_tag">
+          insert into article_tag(tag_id,tag_name,tag_content)
+          values
+          (#{tag_id},#{tag_name},#{tag_content})
+    </insert>
+</mapper>

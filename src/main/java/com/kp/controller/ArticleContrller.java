@@ -45,15 +45,30 @@ public class ArticleContrller {
 
         PageInfo pageInfo = new PageInfo(byId,5);
 
-        return Msg.sucess().add("pageInfo",pageInfo);
+        Msg pageInfo1 = Msg.sucess().add("pageInfo", pageInfo);
+
+        pageInfo1.setTime(msg.getTime());
+        return pageInfo1;
     }
     /**
      * 根据id删除文章
      */
+
     @DeleteMapping("/deleteArticle/{id}")
     public Msg deleteArticle(@PathVariable("id") Integer articleId){
         System.out.println("id"+articleId);
         articleService.deleteId(articleId);
+        return Msg.sucess();
+    }
+
+
+    /**
+     *搜索文章
+     */
+
+    public Msg selectArticleList(Article article){
+        List<Article> byArticleList = articleService.findByArticleList(article);
+
         return Msg.sucess();
     }
 }

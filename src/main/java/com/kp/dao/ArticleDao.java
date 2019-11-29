@@ -30,6 +30,9 @@ public interface ArticleDao {
     List<Article> findById(Integer id);
 
 
-
+    /**
+     * 模糊查询搜索功能
+     */
+    List<Article> findByArticleList(Article article);
 
 }
